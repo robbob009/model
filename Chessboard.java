@@ -80,6 +80,26 @@ public class Chessboard
         return board;
     }
 
+    public Piece[] getWhitePieces()
+    {
+        return whitePieces;
+    }
+
+    public void setWhitePieces(Piece[] whitePieces)
+    {
+        this.whitePieces = whitePieces;
+    }
+
+    public Piece[] getBlackPieces()
+    {
+        return blackPieces;
+    }
+
+    public void setBlackPieces(Piece[] blackPieces)
+    {
+        this.blackPieces = blackPieces;
+    }
+
     /**
      * Clear Board
      * The world removes all actors and text images.
@@ -155,16 +175,13 @@ public class Chessboard
      * @param newX
      * @param newY
      */
-    public void move(Piece piece, int newX, int newY)
+    public boolean isLegalMove(Piece piece, int newX, int newY)
     {
-        //Checks if the piece being moved is the color of the current turn
         if (piece.getIsWhite() != getWhiteTurn())
         {
-            System.out.println("The piece is the wrong color.");
-            return;
+            return false;
         }
 
-        //Checks if the piece can actually move to the new location
         boolean legalMove = false;
         for (int[] move : piece.getLegalVectors())
         {
@@ -175,13 +192,13 @@ public class Chessboard
                 break;
             }
         }
+
         if (!legalMove)
         {
-            System.out.println("The piece cannot move here.");
-            return;
+            return false;
         }
 
-        //checks if moving the piece puts their king in check
+      //checks if moving the piece puts their king in check
         Piece[] tempBlackArray = blackPieces;
         Piece[] tempWhiteArray = whitePieces;
 
@@ -196,11 +213,32 @@ public class Chessboard
 
         if (!check(tempWhiteArray, tempBlackArray).isEmpty())
         {
-            System.out.println("Moving this piece puts you in check.");
-            return;
+            return false;
         }
 
-        //Congrats, it's a legal move
+        return true;
+    }
+
+    /**
+     * Place a description of your method here.
+     * @param piece
+     * @param newX
+     * @param newY
+     */
+    public void move(Piece piece, int newX, int newY)
+    {
+
+        Piece[] tempBlackArray = blackPieces;
+        Piece[] tempWhiteArray = whitePieces;
+        if (piece.getIsWhite())
+        {
+            tempWhiteArray[piece.getInColorArray()] = piece;
+        }
+        else
+        {
+            tempBlackArray[piece.getInColorArray()] = piece;
+        }
+
         blackPieces = tempBlackArray;
         whitePieces = tempWhiteArray;
 
