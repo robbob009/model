@@ -209,6 +209,41 @@ public class Chessboard
         piece.setxCoord(newX);
         piece.setyCoord(newY);
 
+        //Taking a piece
+        if (board[newX][newY] != null)
+        {
+            if (board[newX][newY].getIsWhite())
+            {
+                whitePieces[board[newX][newY].getInColorArray()] = null;
+            }
+            else
+            {
+                blackPieces[board[newX][newY].getInColorArray()] = null;
+            }
+        }
+
+        if ((newY == 0 || newY == 7) && piece.getClass() == Pawn.class)
+        {
+//            GET USER INPUT HERE
+//            Piece newPiece;
+//            if (Queen)
+//            {
+//                newPiece = new Queen (piece.getIsWhite(), newX, newY, piece.getInColorArray(), this);
+//            }
+//            else if (Rook)
+//            {
+//                newPiece = new Rook(piece.getIsWhite(), newX, newY, piece.getInColorArray(), this);
+//            }
+//            else if (Bishop)
+//            {
+//                newPiece = new Bishop (piece.getIsWhite(), newX, newY, piece.getInColorArray(), this);
+//            }
+//            else
+//            {
+//                newPiece = new Knight (piece.getIsWhite(), newX, newY, piece.getInColorArray(), this);
+//            }
+            piece = new Queen (piece.getIsWhite(), newX, newY, piece.getInColorArray(), this);
+        }
         board[piece.getxCoord()][piece.getyCoord()] = piece;
 
         whiteTurn = !whiteTurn;
