@@ -16,10 +16,9 @@ public class Pawn extends Piece
 {
     //~ Fields ................................................................
 
-    private int xCoord;
-    private int yCoord;
+    private Location local;
     private Chessboard board;
-    private ArrayList<int[]> legalMoves;
+    private ArrayList<Location> legalMoves;
     private Piece offsetObject;
 
     //~ Constructor ...........................................................
@@ -27,27 +26,30 @@ public class Pawn extends Piece
     /**
      * Creates a new Pawn object.
      * @param color true if white and false if black
-     * @param xLocal the xLocation of the piece
-     * @param yLocal the yLocation of the piece
      * @param posInArray the position in the array of those color pieces
      * @param chessBoard the board the piece is on
      */
-    public Pawn(boolean color, int xLocal, int yLocal, int posInArray,
+    public Pawn(boolean color, Location location, int posInArray,
         Chessboard chessBoard)
     {
-        super(color, xLocal, yLocal, posInArray, chessBoard);
-        xCoord = xLocal;
-        yCoord = yLocal;
+        super(color, location, posInArray, chessBoard);
+        local = location;
         board = chessBoard;
 
-        legalVectors.add(new int[] {0, 1});
-        legalVectors.add(new int[] {0, -1});
-        legalVectors.add(new int[] {1, 1});
-        legalVectors.add(new int[] {1, -1});
-        legalVectors.add(new int[] {-1, 1});
-        legalVectors.add(new int[] {-1, -1});
+        if(color)
+        {
+            legalVectors.add(new Location (0, -1));
+            legalVectors.add(new Location (1, -1));
+            legalVectors.add(new Location (-1, -1));
+        }
+        else
+        {
+            legalVectors.add(new Location (0, 1));
+            legalVectors.add(new Location (1, 1));
+            legalVectors.add(new Location (-1, 1));
+        }
 
-        legalMoves = new ArrayList<int[]>();
+        legalMoves = new ArrayList<Location>();
     }
 
     //~ Methods ...............................................................
@@ -57,37 +59,35 @@ public class Pawn extends Piece
      * returns an arraylist of legal moves
      * @return legalMoves for this pawn's location
      */
-    public ArrayList<int[]> getLegalMoves()
+    public ArrayList<Location> getLegalMoves()
     {
         legalMoves.clear();
 
-        for (int[] vector : this.getLegalVectors())
+        for (Location vector : this.getLegalVectors())
         {
-            if ((xCoord + vector[0] < 8) &&
-                (xCoord + vector[0] > -1) &&
-                (yCoord + vector[1] < 8) &&
-                (yCoord + vector[1] > -1))
+            if ((local.x() + vector.x() < 8) &&
+                (local.x() + vector.x() > -1) &&
+                (local.y() + vector.y() < 8) &&
+                (local.y() + vector.y() > -1))
             {
-                offsetObject = board.getBoard()[xCoord + vector[0]][yCoord + vector[1]];
-                if ((((vector[0] == 0) && (offsetObject == null))
-                    || ((vector[0] != 0) && (offsetObject != null) &&
-                    (offsetObject.getIsWhite() != this.getIsWhite()))) &&
-                    (((this.getIsWhite()) && (vector[1] < 0))
-                    || ((!this.getIsWhite()) && (vector[1] > 0))) )
+                offsetObject = board.getBoard()[local.x() + vector.x()][local.y() + vector.y()];
+
+                if (vector.x() == 0 && offsetObject == null
+                    || vector.x() != 0 && offsetObject != null && offsetObject.getIsWhite() != this.getIsWhite())
                 {
-                    legalMoves.add(vector);
+                    legalMoves.add(new Location (vector.x() + local.x(), vector.y() + local.y()));
                 }
             }
         }
-        if ((this.getIsWhite()) && (yCoord == 6) &&
-            (board.getBoard()[xCoord][yCoord - 2] == null))
+        if ((this.getIsWhite()) && (local.y() == 6) &&
+            (board.getBoard()[local.x()][local.y() - 2] == null))
         {
-            legalMoves.add(new int[] {0, -2});
+            legalMoves.add(new Location (local.x(), local.y() -2));
         }
-        else if ((!this.getIsWhite()) && (yCoord == 1) &&
-            (board.getBoard()[xCoord][yCoord - 2] == null))
+        else if ((!this.getIsWhite()) && (local.y() == 1) &&
+            (board.getBoard()[local.x()][local.y() + 2] == null))
         {
-            legalMoves.add(new int[] {0, 2});
+            legalMoves.add(new Location (local.x(), local.y() + 2));
         }
         return legalMoves;
     }

@@ -29,15 +29,15 @@ public class Bishop extends Piece
      * @param posInArray the position in the array of those color pieces
      * @param chessBoard the board the piece is on.
      */
-    public Bishop(boolean color, int xLocal, int yLocal, int posInArray,
+    public Bishop(boolean color, Location location, int posInArray,
         Chessboard chessBoard)
     {
-        super(color, xLocal, yLocal, posInArray, chessBoard);
+        super(color, location, posInArray, chessBoard);
 
-        legalVectors.add(new int[] {-1, -1});
-        legalVectors.add(new int[] {-1, 1});
-        legalVectors.add(new int[] {1, -1});
-        legalVectors.add(new int[] {1, 1});
+        legalVectors.add(new Location (-1, -1));
+        legalVectors.add(new Location (-1, 1));
+        legalVectors.add(new Location (1, -1));
+        legalVectors.add(new Location (1, 1));
     }
 
     //~ Methods ...............................................................

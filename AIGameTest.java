@@ -13,6 +13,5 @@ public class AIGameTest extends TestCase
         {
             System.out.println(game.run(board));
         }
-
     }
 }

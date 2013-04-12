@@ -25,14 +25,14 @@ public class Rook extends Piece
      * @param posInArray the position in the array of those color pieces
      * @param chessBoard the board the piece is on.
      */
-    public Rook(boolean color, int xLocal, int yLocal, int posInArray,
+    public Rook(boolean color, Location location, int posInArray,
         Chessboard chessBoard)
     {
-        super(color, xLocal, yLocal, posInArray, chessBoard);
-        legalVectors.add(new int[] {-1, 0});
-        legalVectors.add(new int[] {0, -1});
-        legalVectors.add(new int[] {0, 1});
-        legalVectors.add(new int[] {1, 0});
+        super(color, location, posInArray, chessBoard);
+        legalVectors.add(new Location (-1, 0));
+        legalVectors.add(new Location (0, -1));
+        legalVectors.add(new Location (0, 1));
+        legalVectors.add(new Location (1, 0));
 
     }
 

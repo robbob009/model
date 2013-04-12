@@ -14,98 +14,62 @@ import java.util.Random;
 public class AIGame
 {
     private Chessboard board;
+
+
     // ----------------------------------------------------------
 
     public String run(Chessboard board)
     {
-        Random rand = new Random();
-        Piece[] pieces;
-        Boolean whiteTurn = board.getWhiteTurn();
-        if (whiteTurn)
-        {
-            pieces = board.getWhitePieces();
-        }
-        else
-        {
-            pieces = board.getBlackPieces();
-        }
-
-        Piece piece = null;
-        while (piece == null)
-        {
-            piece = pieces[rand.nextInt(15)];
-        }
-        ArrayList<int[]> legalMoves = piece.getLegalMoves();
-        if (legalMoves.isEmpty())
-        {
-            run(board);
-            return "";
-        }
-
-        int[] move = legalMoves.get(rand.nextInt(legalMoves.size()));
-
-        if (!board.isLegalMove(piece, move[0], move[1]))
-        {
-            run(board);
-            return "";
-        }
-
-        board.move(piece, move[0], move[1]);
+        boolean cont = true;
         String output = "";
+        while (cont)
+        {
+            Random rand = new Random();
+            Piece[] pieces;
+            Boolean whiteTurn = board.getWhiteTurn();
+            if (whiteTurn)
+            {
+                pieces = board.getWhitePieces();
+            }
+            else
+            {
+                pieces = board.getBlackPieces();
+            }
 
-        if (whiteTurn)
-        {
-            output += "White: ";
-        }
-        else
-        {
-            output += "Black: ";
-        }
+            Piece piece = null;
+            while (piece == null)
+            {
+                piece = pieces[rand.nextInt(15)];
+            }
+            ArrayList<Location> legalMoves = piece.getLegalMoves();
+            if (legalMoves.isEmpty())
+            {
+                continue;
+            }
 
-        if (piece.getClass() == King.class)
-        {
-            output += "K";
-        }
-        else if (piece.getClass() == Queen.class)
-        {
-            output += "Q";
-        }
-        else if (piece.getClass() == Rook.class)
-        {
-            output += "R";
-        }
-        else if (piece.getClass() == Bishop.class)
-        {
-            output += "B";
-        }
-        else if (piece.getClass() == Knight.class)
-        {
-            output += "K";
-        }
+            Location move = legalMoves.get(rand.nextInt(legalMoves.size()));
 
-        switch (move[0])
-        {
-            case (0):
-                output += "a";
-            case (1):
-                output += "b";
-            case (2):
-                output += "c";
-            case (3):
-                output += "d";
-            case (4):
-                output += "e";
-            case (5):
-                output += "f";
-            case (6):
-                output += "g";
-            case (7):
-                output += "h";
+            if (!board.isLegalMove(piece, move))
+            {
+                continue;
+            }
+
+            board.move(piece, move);
+
+            if (whiteTurn)
+            {
+                output += "White: ";
+            }
+            else
+            {
+                output += "Black: ";
+            }
+
+            output += move.toString(piece);
+            cont = false;
         }
-
-        output += (8 - move[1]);
-
         return output;
+
     }
 
 }

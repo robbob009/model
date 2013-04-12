@@ -1,5 +1,5 @@
 package model;
-import java.util.*;
+import java.util.ArrayList;
 
 //-------------------------------------------------------------------------
 /**
@@ -17,9 +17,8 @@ public class Piece
 
     private boolean isWhite;
     private boolean isActive;
-    private ArrayList<int[]> legalMoves;
-    private int xCoord;
-    private int yCoord;
+    private ArrayList<Location> legalMoves;
+    private Location local;
     private int inColorArray;
     private Chessboard board;
 
@@ -27,30 +26,28 @@ public class Piece
      * legalVectors
      * will be overwritten by every chess piece upon construction.
      */
-    public ArrayList<int[]> legalVectors;
+    public ArrayList<Location> legalVectors;
 
     //~ Constructor ...........................................................
     // ----------------------------------------------------------
     /**
      * Creates a new Piece object.
      * @param color true if white and false if black.
-     * @param xLocal the x location of the piece.
-     * @param yLocal the y location of the piece.
+     * @param location
      * @param posInArray the position
      *          in the array holding all of that color pieces
      * @param chessBoard the board the piece is on.
      *
      */
-    public Piece(boolean color, int xLocal, int yLocal, int posInArray,
+    public Piece(boolean color, Location location, int posInArray,
         Chessboard chessBoard)
     {
         inColorArray = posInArray;
         isWhite = color;
-        xCoord = xLocal;
-        yCoord = yLocal;
+        local = location;
         board = chessBoard;
         isActive = false;
-        legalVectors = new ArrayList<int[]>();
+        legalVectors = new ArrayList<Location>();
     }
     //~ Methods ...............................................................
 
@@ -60,32 +57,32 @@ public class Piece
      * @return returns all legal moves for the piece at this location
      *
      */
-    public ArrayList<int[]> getLegalMoves()
+    public ArrayList<Location> getLegalMoves()
     {
-        legalMoves = new ArrayList<int[]>();
+        legalMoves = new ArrayList<Location>();
 
-        for (int[] vector : this.getLegalVectors())
+        for (Location vector : this.getLegalVectors())
         {
             for (int i = 1; i < 8; i++)
             {
-                if ((xCoord + i * vector[0] < 8) &&
-                    (xCoord + i * vector[0] > -1) &&
-                    (yCoord + i * vector[1] < 8) &&
-                    (yCoord + i * vector[1] > -1))
+                if ((local.x() + i * vector.x() < 8) &&
+                    (local.x() + i * vector.x() > -1) &&
+                    (local.y() + i * vector.y() < 8) &&
+                    (local.y() + i * vector.y() > -1))
                 {
-                    if (board.getBoard()[xCoord + i * vector[0]][yCoord + i *
-                        vector[1]] == null)
+                    if (board.getBoard()[local.x() + i * vector.x()][local.y() + i *
+                        vector.y()] == null)
                     {
-                        legalMoves.add(new int[] {vector[0] * i,
-                            vector[1] * i});
+                        legalMoves.add(new Location (vector.x() * i + local.x(),
+                            vector.y() * i + local.y()));
                     }
                     else if ((board.getBoard()
-                        [xCoord + i * vector[0]]
-                            [yCoord + i * vector[1]]
+                        [local.x() + i * vector.x()]
+                            [local.y() + i * vector.y()]
                                 .getIsWhite()) != this.getIsWhite())
                     {
-                        legalMoves.add(new int[] {vector[0] * i,
-                            vector[1] * i});
+                        legalMoves.add(new Location (vector.x() * i + local.x(),
+                            vector.y() * i + local.y()));
                         break;
                     }
                     else
@@ -108,44 +105,6 @@ public class Piece
     }
 
     /**
-     * gets the X coordinate
-     * @return the xCoordinate
-     */
-    public int getxCoord()
-    {
-        return xCoord;
-    }
-
-    /**
-     * sets the X coordinate
-     * @param xCoord is the new xCoordinate
-     */
-    public void setxCoord(int xCoord)
-    {
-        this.xCoord = xCoord;
-    }
-
-
-    /**
-     * gets the yCoordinate
-     * @return the yCoordinate
-     */
-    public int getyCoord()
-    {
-        return yCoord;
-    }
-
-
-    /**
-     * Sets the y Coordinate
-     * @param yCoord is the new yCoordinate
-     */
-    public void setyCoord(int yCoord)
-    {
-        this.yCoord = yCoord;
-    }
-
-    /**
      * get Is White
      * @return true if a piece is white
      * and false if a piece is black
@@ -153,6 +112,18 @@ public class Piece
     public boolean getIsWhite()
     {
         return isWhite;
+    }
+
+
+
+    public Location getLocal()
+    {
+        return local;
+    }
+
+    public void setLocal(Location local)
+    {
+        this.local = local;
     }
 
     /**
@@ -170,7 +141,7 @@ public class Piece
      * getLegalVectors
      * @return all possible legal vectors for this piece
      */
-    public ArrayList<int[]> getLegalVectors()
+    public ArrayList<Location> getLegalVectors()
     {
         return legalVectors;
     }

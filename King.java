@@ -15,9 +15,8 @@ public class King extends Piece
 {
     //~ Fields ................................................................
 
-    private ArrayList<int[]> legalMoves;
-    private int xCoord;
-    private int yCoord;
+    private ArrayList<Location> legalMoves;
+    private Location local;
     private Chessboard board;
 
     //~ Constructor ...........................................................
@@ -30,22 +29,22 @@ public class King extends Piece
      * @param posInArray the position in the array of those color pieces
      * @param chessBoard the board the piece is on
      */
-    public King(boolean color, int xLocal, int yLocal, int posInArray,
+    public King(boolean color, Location location, int posInArray,
         Chessboard chessBoard)
     {
-        super(color, xLocal, yLocal, posInArray, chessBoard);
-        xCoord = xLocal;
-        yCoord = yLocal;
-        legalVectors.add(new int[] {-1, -1});
-        legalVectors.add(new int[] {-1, 0});
-        legalVectors.add(new int[] {-1, 1});
-        legalVectors.add(new int[] {0, -1});
-        legalVectors.add(new int[] {0, 1});
-        legalVectors.add(new int[] {1, -1});
-        legalVectors.add(new int[] {1, 0});
-        legalVectors.add(new int[] {1, 1});
+        super(color, location, posInArray, chessBoard);
+        local = location;
+        board = chessBoard;
+        legalVectors.add(new Location (-1, -1));
+        legalVectors.add(new Location (-1, 0));
+        legalVectors.add(new Location (-1, 1));
+        legalVectors.add(new Location (0, -1));
+        legalVectors.add(new Location (0, 1));
+        legalVectors.add(new Location (1, -1));
+        legalVectors.add(new Location (1, 0));
+        legalVectors.add(new Location (1, 1));
 
-        legalMoves = new ArrayList<int[]>();
+        legalMoves = new ArrayList<Location>();
 
     }
 
@@ -53,26 +52,31 @@ public class King extends Piece
 
     /**
      * getLegalMoves method
+     *
      * @return gives ArrayList of int arrays containing the coordinate pairs
-     * (delta x, delta y) of legal moves
+     *         (delta x, delta y) of legal moves
      */
-    public ArrayList<int[]> getLegalMoves()
+    public ArrayList<Location> getLegalMoves()
     {
         legalMoves.clear();
 
-        for (int[] vector : this.getLegalVectors())
+        for (Location vector : this.getLegalVectors())
         {
-            if (((xCoord + vector[0] < 8) &&
-                (xCoord + vector[0] > -1)
-                && (yCoord + vector[1] < 8) &&
-                (yCoord + vector[1] > -1))
-                || (board.getBoard()[xCoord + vector[0]] //This may cause a null pointer exception
-                    [yCoord + vector[1]] == null         //if it checks outside the board
-                    || board.getBoard()[vector[0]][vector[1]]
-                        .getIsWhite() != this.getIsWhite()))
+            if (local.x() + vector.x() < 8 && local.x() + vector.x() > -1
+                && local.y() + vector.y() < 8 && local.y() + vector.y() > -1)
             {
-                legalMoves.add(vector);
+                if (board.getBoard()[local.x() + vector.x()][local.y()
+                    + vector.y()] == null)
+                {
+                    legalMoves.add(new Location (vector.x() + local.x(), vector.y() + local.y()));
+                }
+                else if (board.getBoard()[local.x() + vector.x()][local.y()
+                    + vector.y()].getIsWhite() != this.getIsWhite())
+                {
+                    legalMoves.add(new Location (vector.x() + local.x(), vector.y() + local.y()));
+                }
             }
+
             else
             {
                 continue;
@@ -81,6 +85,5 @@ public class King extends Piece
 
         return legalMoves;
     }
-
 
 }
