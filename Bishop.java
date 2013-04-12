@@ -24,8 +24,7 @@ public class Bishop extends Piece
     /**
      * Creates a new Bishop object.
      * @param color true for white and false for black
-     * @param xLocal the x location of the piece.
-     * @param yLocal the y location of the piece.
+     * @param location The location of the piece
      * @param posInArray the position in the array of those color pieces
      * @param chessBoard the board the piece is on.
      */

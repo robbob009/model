@@ -116,11 +116,21 @@ public class Piece
 
 
 
+    // ----------------------------------------------------------
+    /**
+     * Gets the location of the piece
+     * @return the piece's location
+     */
     public Location getLocal()
     {
         return local;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Sets the location of the piece
+     * @param local the loaction to be set to
+     */
     public void setLocal(Location local)
     {
         this.local = local;

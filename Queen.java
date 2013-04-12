@@ -20,8 +20,7 @@ public class Queen extends Piece
     /**
      * Creates a new Queen object.
      * @param color true if white and false if black
-     * @param xLocal xCoordinate of the piece
-     * @param yLocal yCoordinate of the piece
+     * @param location The location of the piece
      * @param posInArray the position in the array of those color pieces
      * @param chessBoard the board the piece is on
      */

@@ -20,8 +20,7 @@ public class Rook extends Piece
     /**
      * Creates a new Rook object.
      * @param color true if white and false if black
-     * @param xLocal the x location of the piece.
-     * @param yLocal the y location of the piece.
+     * @param location The location of the piece
      * @param posInArray the position in the array of those color pieces
      * @param chessBoard the board the piece is on.
      */

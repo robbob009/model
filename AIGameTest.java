@@ -2,8 +2,20 @@ package model;
 
 import junit.framework.TestCase;
 
+// -------------------------------------------------------------------------
+/**
+ *  Tests the AIGame
+ *
+ *  @author Robert Scheible (scheible)
+ *  @version Apr 12, 2013
+ */
 public class AIGameTest extends TestCase
 {
+
+    // ----------------------------------------------------------
+    /**
+     * Tests the run method
+     */
     public void testRun()
     {
         AIGame game = new AIGame();

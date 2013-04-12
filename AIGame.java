@@ -13,11 +13,17 @@ import java.util.Random;
  */
 public class AIGame
 {
-    private Chessboard board;
+
 
 
     // ----------------------------------------------------------
 
+    // ----------------------------------------------------------
+    /**
+     * Attempts to make a random move.
+     * @param board the board the move is being made on
+     * @return the move in chess notation
+     */
     public String run(Chessboard board)
     {
         boolean cont = true;

@@ -80,21 +80,43 @@ public class Chessboard
         return board;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Returns the array of all white pieces
+     * @return the white pieces
+     */
     public Piece[] getWhitePieces()
     {
         return whitePieces;
     }
 
+
+    // ----------------------------------------------------------
+    /**
+     * Sets the array of white pieces to whatever the new array is
+     * @param whitePieces is the pieces to be on the board
+     */
     public void setWhitePieces(Piece[] whitePieces)
     {
         this.whitePieces = whitePieces;
     }
 
+
+    // ----------------------------------------------------------
+    /**
+     * Returns the array of all black pieces
+     * @return the array of all black pieces
+     */
     public Piece[] getBlackPieces()
     {
         return blackPieces;
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Sets the blackPieces to the new array passed in
+     * @param blackPieces the new array
+     */
     public void setBlackPieces(Piece[] blackPieces)
     {
         this.blackPieces = blackPieces;
@@ -113,8 +135,8 @@ public class Chessboard
                 board[ii][jj] = null;
             }
         }
-        blackPieces = null;
-        whitePieces = null;
+        blackPieces = new Piece[16];
+        whitePieces = new Piece[16];
     }
 
 
@@ -171,10 +193,9 @@ public class Chessboard
 
     /**
      * Place a description of your method here.
-     * @param piece
-     * @param newX
-     * @param newY
-     * @return
+     * @param piece The piece whose move is being checked
+     * @param newLocal location of the move
+     * @return whether or not the move is legal (boolean)
      */
     public boolean isLegalMove(Piece piece, Location newLocal)
     {
@@ -221,9 +242,8 @@ public class Chessboard
 
     /**
      * Place a description of your method here.
-     * @param piece
-     * @param newX
-     * @param newY
+     * @param piece The piece being moved
+     * @param newLocal the location the piece is being moved to
      */
     public void move(Piece piece, Location newLocal)
     {
@@ -243,7 +263,7 @@ public class Chessboard
                 blackPieces[board[newLocal.x()][newLocal.y()].getInColorArray()] = null;
             }
         }
-
+        Piece newPiece = piece;
         if ((newLocal.x() == 0 || newLocal.y() == 7) && piece.getClass() == Pawn.class)
         {
 //            GET USER INPUT HERE
@@ -264,9 +284,9 @@ public class Chessboard
 //            {
 //                newPiece = new Knight (piece.getIsWhite(), newX, newY, piece.getInColorArray(), this);
 //            }
-            piece = new Queen (piece.getIsWhite(), newLocal, piece.getInColorArray(), this);
+            newPiece = new Queen (piece.getIsWhite(), newLocal, piece.getInColorArray(), this);
         }
-        board[piece.getLocal().x()][piece.getLocal().y()] = piece;
+        board[piece.getLocal().x()][piece.getLocal().y()] = newPiece;
 
         whiteTurn = !whiteTurn;
     }

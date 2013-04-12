@@ -46,7 +46,7 @@ public class Location
     /**
      * Prints the coordinates of the location to a string, using chess
      * coordinates
-     *
+     * @param piece the piece that the location is being found for
      * @return the coordinates of the location
      */
     public String toString(Piece piece)

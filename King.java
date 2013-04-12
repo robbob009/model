@@ -24,8 +24,7 @@ public class King extends Piece
     /**
      * Creates a new BlackKing object.
      * @param color true if white and false if black
-     * @param xLocal the xLocation of the piece
-     * @param yLocal the yLocation of the piece
+     * @param location The location of the piece
      * @param posInArray the position in the array of those color pieces
      * @param chessBoard the board the piece is on
      */

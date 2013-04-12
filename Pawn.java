@@ -26,6 +26,7 @@ public class Pawn extends Piece
     /**
      * Creates a new Pawn object.
      * @param color true if white and false if black
+     * @param location The location of the piece
      * @param posInArray the position in the array of those color pieces
      * @param chessBoard the board the piece is on
      */
