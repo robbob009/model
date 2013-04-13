@@ -85,4 +85,10 @@ public class King extends Piece
         return legalMoves;
     }
 
+    public void setLocal(Location local)
+    {
+        this.local = local;
+    }
+
+
 }

@@ -95,6 +95,24 @@ public class Piece
         return legalMoves;
     }
 
+    public String toString()
+    {
+        String output = "";
+        if (getIsWhite())
+        {
+            output += "White ";
+        }
+        else
+        {
+            output += "Black ";
+        }
+
+        output += getClass() + " at " + this.getLocal().toString();
+
+        return output;
+
+    }
+
     /**
      * Returns the position of the piece in the array of that color
      * @return the position of the piece in the array of that color

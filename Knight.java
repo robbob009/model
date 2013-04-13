@@ -78,7 +78,13 @@ public class Knight extends Piece
             }
         }
         return legalMoves;
-
     }
+
+    public void setLocal(Location local)
+    {
+        this.local = local;
+    }
+
+
 
 }

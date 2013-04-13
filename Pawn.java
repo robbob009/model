@@ -81,16 +81,24 @@ public class Pawn extends Piece
             }
         }
         if ((this.getIsWhite()) && (local.y() == 6) &&
-            (board.getBoard()[local.x()][local.y() - 2] == null))
+            (board.getBoard()[local.x()][local.y() - 2] == null
+            && board.getBoard()[local.x()][local.y() - 1] == null))
         {
             legalMoves.add(new Location (local.x(), local.y() -2));
         }
-        else if ((!this.getIsWhite()) && (local.y() == 1) &&
-            (board.getBoard()[local.x()][local.y() + 2] == null))
+        else if (!this.getIsWhite() && local.y() == 1 &&
+            board.getBoard()[local.x()][local.y() + 2] == null
+            && board.getBoard()[local.x()][local.y() - 1] == null)
         {
             legalMoves.add(new Location (local.x(), local.y() + 2));
         }
         return legalMoves;
     }
+
+    public void setLocal(Location local)
+    {
+        this.local = local;
+    }
+
 
 }
