@@ -26,9 +26,7 @@ public class AIGame
      */
     public String run(Chessboard board)
     {
-        boolean cont = true;
         String output = "";
-        int numRuns = 0;
         Random rand = new Random();
         Piece[] pieces;
         Boolean whiteTurn = board.getWhiteTurn();
@@ -47,7 +45,7 @@ public class AIGame
         {
             if (piece != null)
             {
-                for (Location move : piece.getLegalMoves())
+                for (Location move : piece.getLegalMoves(board.getBoard()))
                 {
                     piecesWithMoves.add(piece);
                     movesWithPieces.add(move);
@@ -59,6 +57,7 @@ public class AIGame
         int posInMoveArray = 0;
         while (illegalMove)
         {
+
             posInMoveArray = rand.nextInt(movesWithPieces.size());
             if (!board.isLegalMove(
                 piecesWithMoves.get(posInMoveArray),
@@ -66,10 +65,22 @@ public class AIGame
             {
 
                 piecesWithMoves.remove(posInMoveArray);
-                piecesWithMoves.remove(posInMoveArray);
+                movesWithPieces.remove(posInMoveArray);
                 continue;
             }
             illegalMove = false;
+
+//            Piece[][] chessBoard = board.getBoard();
+//            for (int ii = 0; ii < 8; ii++)
+//            {
+//                for (int jj = 0; jj < 8; jj++)
+//                {
+//                    if (chessBoard[ii][jj] != null)
+//                    {
+//                        System.out.println(chessBoard[ii][jj].toString());
+//                    }
+//                }
+//            }
         }
 
         board.move(
@@ -88,12 +99,6 @@ public class AIGame
         output +=
             movesWithPieces.get(posInMoveArray).toString(
                 piecesWithMoves.get(posInMoveArray));
-        output += "-- ";
-        output +=
-            piecesWithMoves.get(posInMoveArray).getClass() + ", "
-                + piecesWithMoves.get(posInMoveArray).getIsWhite() + ", "
-                + piecesWithMoves.get(posInMoveArray).getInColorArray();
-        cont = false;
 
         // board.print();
         return output;

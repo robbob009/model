@@ -17,7 +17,6 @@ public class Pawn extends Piece
     //~ Fields ................................................................
 
     private Location local;
-    private Chessboard board;
     private ArrayList<Location> legalMoves;
     private Piece offsetObject;
 
@@ -28,14 +27,12 @@ public class Pawn extends Piece
      * @param color true if white and false if black
      * @param location The location of the piece
      * @param posInArray the position in the array of those color pieces
-     * @param chessBoard the board the piece is on
      */
-    public Pawn(boolean color, Location location, int posInArray,
-        Chessboard chessBoard)
+    public Pawn(boolean color, Location location, int posInArray)
     {
-        super(color, location, posInArray, chessBoard);
+        super(color, location, posInArray);
         local = location;
-        board = chessBoard;
+
 
         if(color)
         {
@@ -57,10 +54,10 @@ public class Pawn extends Piece
 
     /**
      * get Legal Moves
-     * returns an arraylist of legal moves
+     * returns an arrayList of legal moves
      * @return legalMoves for this pawn's location
      */
-    public ArrayList<Location> getLegalMoves()
+    public ArrayList<Location> getLegalMoves(Piece[][] board)
     {
         legalMoves.clear();
 
@@ -71,7 +68,7 @@ public class Pawn extends Piece
                 (local.y() + vector.y() < 8) &&
                 (local.y() + vector.y() > -1))
             {
-                offsetObject = board.getBoard()[local.x() + vector.x()][local.y() + vector.y()];
+                offsetObject = board[local.x() + vector.x()][local.y() + vector.y()];
 
                 if (vector.x() == 0 && offsetObject == null
                     || vector.x() != 0 && offsetObject != null && offsetObject.getIsWhite() != this.getIsWhite())
@@ -81,14 +78,14 @@ public class Pawn extends Piece
             }
         }
         if ((this.getIsWhite()) && (local.y() == 6) &&
-            (board.getBoard()[local.x()][local.y() - 2] == null
-            && board.getBoard()[local.x()][local.y() - 1] == null))
+            (board[local.x()][local.y() - 2] == null
+            && board[local.x()][local.y() - 1] == null))
         {
             legalMoves.add(new Location (local.x(), local.y() -2));
         }
         else if (!this.getIsWhite() && local.y() == 1 &&
-            board.getBoard()[local.x()][local.y() + 2] == null
-            && board.getBoard()[local.x()][local.y() - 1] == null)
+            board[local.x()][local.y() + 2] == null
+            && board[local.x()][local.y() - 1] == null)
         {
             legalMoves.add(new Location (local.x(), local.y() + 2));
         }
@@ -98,6 +95,7 @@ public class Pawn extends Piece
     public void setLocal(Location local)
     {
         this.local = local;
+        super.setLocal(local);
     }
 
 

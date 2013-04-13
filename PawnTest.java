@@ -16,7 +16,7 @@ public class PawnTest extends student.TestCase
      */
     public void testPawnB2()
     {
-        ArrayList<Location> moves = board.getWhitePieces()[9].getLegalMoves();
+        ArrayList<Location> moves = board.getWhitePieces()[9].getLegalMoves(board.getBoard());
         System.out.println(board.getWhitePieces()[9].getLocal().x());
         System.out.println(board.getWhitePieces()[9].getLocal().y());
         assertEquals(2, moves.size());
@@ -42,7 +42,7 @@ public class PawnTest extends student.TestCase
         chessBoard[0][5] = black[8];
         chessBoard[2][5] = black[10];
 
-        ArrayList<Location> moves = board.getWhitePieces()[9].getLegalMoves();
+        ArrayList<Location> moves = board.getWhitePieces()[9].getLegalMoves(board.getBoard());
         assertEquals(4, moves.size());
         assertEquals(new Location(1, 5), moves.get(0));
         assertEquals(new Location(2, 5), moves.get(1));
@@ -57,7 +57,7 @@ public class PawnTest extends student.TestCase
         board.move(board.getWhitePieces()[9], new Location (1, 4));
 
         assertNotNull(board.getBoard()[1][4]);
-        ArrayList<Location> moves = board.getWhitePieces()[9].getLegalMoves();
+        ArrayList<Location> moves = board.getWhitePieces()[9].getLegalMoves(board.getBoard());
         for (Location move : moves)
         {
             System.out.println("(" + move.x() + ", " + move.y() + ")");

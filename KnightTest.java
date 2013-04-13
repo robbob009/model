@@ -18,7 +18,7 @@ public class KnightTest extends student.TestCase
     board.move(board.getWhitePieces()[1], new Location (0, 5));
 
     assertNotNull(board.getBoard()[0][5]);
-    ArrayList<Location> moves = board.getWhitePieces()[1].getLegalMoves();
+    ArrayList<Location> moves = board.getWhitePieces()[1].getLegalMoves(board.getBoard());
 
     System.out.println(board.getBoard()[0][5].toString());
     System.out.println(board.getWhitePieces()[1].toString());

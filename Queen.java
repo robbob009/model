@@ -22,13 +22,11 @@ public class Queen extends Piece
      * @param color true if white and false if black
      * @param location The location of the piece
      * @param posInArray the position in the array of those color pieces
-     * @param chessBoard the board the piece is on
      */
-    public Queen(boolean color, Location location, int posInArray,
-        Chessboard chessBoard)
+    public Queen(boolean color, Location location, int posInArray)
 
     {
-        super(color, location, posInArray, chessBoard);
+        super(color, location, posInArray);
 
         legalVectors.add(new Location (-1, -1));
         legalVectors.add(new Location (-1, 0));

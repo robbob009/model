@@ -16,7 +16,6 @@ public class Knight extends Piece
     //~ Fields ................................................................
 
     private Location local;
-    private Chessboard board;
     private ArrayList<Location> legalMoves;
 
     //~ Constructor ...........................................................
@@ -26,14 +25,11 @@ public class Knight extends Piece
      * @param color true if white and false if black
      * @param location
      * @param posInArray the position in the array of those color pieces
-     * @param chessBoard the board the piece is on
      */
-    public Knight(boolean color, Location location, int posInArray,
-        Chessboard chessBoard)
+    public Knight(boolean color, Location location, int posInArray)
     {
-        super(color, location, posInArray, chessBoard);
+        super(color, location, posInArray);
         local = location;
-        board = chessBoard;
         legalVectors.add(new Location (-2, -1));
         legalVectors.add(new Location (-2, 1));
         legalVectors.add(new Location (-1, -2));
@@ -50,11 +46,12 @@ public class Knight extends Piece
     //~ Methods ...............................................................
     /**
      * getLegalMoves
+     * @param board The board on which the move is being checked
      *
      * @return legalMoves for the knight at this location.
      *
      */
-    public ArrayList<Location> getLegalMoves()
+    public ArrayList<Location> getLegalMoves(Piece[][] board)
     {
         legalMoves.clear();
 
@@ -64,9 +61,9 @@ public class Knight extends Piece
                 && (local.y() + vector.y() < 8)
                 && (local.y() + vector.y() > -1))
             {
-                if (board.getBoard()[vector.x() + local.x()][vector.y()
+                if (board[vector.x() + local.x()][vector.y()
                     + local.y()] == null
-                    || board.getBoard()[vector.x() + local.x()][vector.y()
+                    || board[vector.x() + local.x()][vector.y()
                         + local.y()].getIsWhite() != this.getIsWhite())
                 {
                     legalMoves.add(new Location (vector.x() + local.x(), vector.y() + local.y()));
@@ -83,6 +80,7 @@ public class Knight extends Piece
     public void setLocal(Location local)
     {
         this.local = local;
+        super.setLocal(local);
     }
 
 

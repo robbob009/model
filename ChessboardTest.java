@@ -49,11 +49,11 @@ public class ChessboardTest extends student.TestCase
         Piece[] black = board.getBlackPieces();
         Piece[] white = board.getWhitePieces();
 
-        white[4] = new King(true, new Location (2, 2), 4, board);
-        black[4] = new King(false, new Location (4, 4), 4, board);
+        white[4] = new King(true, new Location (2, 2), 4);
+        black[4] = new King(false, new Location (4, 4), 4);
 
-        black[0] = new Rook(false, new Location (2, 4), 0, board);
-        ArrayList<Piece> givingCheck = board.check(white, black);
+        black[0] = new Rook(false, new Location (2, 4), 0);
+        ArrayList<Piece> givingCheck = board.check(white, black, board.getBoard());
         assertEquals(1, givingCheck.size());
     }
 

@@ -20,7 +20,6 @@ public class Piece
     private ArrayList<Location> legalMoves;
     private Location local;
     private int inColorArray;
-    private Chessboard board;
 
     /**
      * legalVectors
@@ -36,16 +35,13 @@ public class Piece
      * @param location
      * @param posInArray the position
      *          in the array holding all of that color pieces
-     * @param chessBoard the board the piece is on.
      *
      */
-    public Piece(boolean color, Location location, int posInArray,
-        Chessboard chessBoard)
+    public Piece(boolean color, Location location, int posInArray)
     {
         inColorArray = posInArray;
         isWhite = color;
         local = location;
-        board = chessBoard;
         isActive = false;
         legalVectors = new ArrayList<Location>();
     }
@@ -54,10 +50,11 @@ public class Piece
     /**
      * get Legal Moves
      * given legal vectors, finds legal moves for a specific piece.
+     * @param board The board the move is being checked on
      * @return returns all legal moves for the piece at this location
      *
      */
-    public ArrayList<Location> getLegalMoves()
+    public ArrayList<Location> getLegalMoves(Piece[][] board)
     {
         legalMoves = new ArrayList<Location>();
 
@@ -70,13 +67,13 @@ public class Piece
                     (local.y() + i * vector.y() < 8) &&
                     (local.y() + i * vector.y() > -1))
                 {
-                    if (board.getBoard()[local.x() + i * vector.x()][local.y() + i *
+                    if (board[local.x() + i * vector.x()][local.y() + i *
                         vector.y()] == null)
                     {
                         legalMoves.add(new Location (vector.x() * i + local.x(),
                             vector.y() * i + local.y()));
                     }
-                    else if ((board.getBoard()
+                    else if ((board
                         [local.x() + i * vector.x()]
                             [local.y() + i * vector.y()]
                                 .getIsWhite()) != this.getIsWhite())

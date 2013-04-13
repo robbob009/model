@@ -17,7 +17,6 @@ public class King extends Piece
 
     private ArrayList<Location> legalMoves;
     private Location local;
-    private Chessboard board;
 
     //~ Constructor ...........................................................
     // ----------------------------------------------------------
@@ -26,14 +25,11 @@ public class King extends Piece
      * @param color true if white and false if black
      * @param location The location of the piece
      * @param posInArray the position in the array of those color pieces
-     * @param chessBoard the board the piece is on
      */
-    public King(boolean color, Location location, int posInArray,
-        Chessboard chessBoard)
+    public King(boolean color, Location location, int posInArray)
     {
-        super(color, location, posInArray, chessBoard);
+        super(color, location, posInArray);
         local = location;
-        board = chessBoard;
         legalVectors.add(new Location (-1, -1));
         legalVectors.add(new Location (-1, 0));
         legalVectors.add(new Location (-1, 1));
@@ -51,11 +47,12 @@ public class King extends Piece
 
     /**
      * getLegalMoves method
+     * @param board The board on which the legal move is being looked for
      *
      * @return gives ArrayList of int arrays containing the coordinate pairs
      *         (delta x, delta y) of legal moves
      */
-    public ArrayList<Location> getLegalMoves()
+    public ArrayList<Location> getLegalMoves(Piece[][] board)
     {
         legalMoves.clear();
 
@@ -64,12 +61,12 @@ public class King extends Piece
             if (local.x() + vector.x() < 8 && local.x() + vector.x() > -1
                 && local.y() + vector.y() < 8 && local.y() + vector.y() > -1)
             {
-                if (board.getBoard()[local.x() + vector.x()][local.y()
+                if (board[local.x() + vector.x()][local.y()
                     + vector.y()] == null)
                 {
                     legalMoves.add(new Location (vector.x() + local.x(), vector.y() + local.y()));
                 }
-                else if (board.getBoard()[local.x() + vector.x()][local.y()
+                else if (board[local.x() + vector.x()][local.y()
                     + vector.y()].getIsWhite() != this.getIsWhite())
                 {
                     legalMoves.add(new Location (vector.x() + local.x(), vector.y() + local.y()));
@@ -88,6 +85,7 @@ public class King extends Piece
     public void setLocal(Location local)
     {
         this.local = local;
+        super.setLocal(local);
     }
 
 

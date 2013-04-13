@@ -43,49 +43,49 @@ public class Chessboard
 
         // Creates black pieces except pawns
         blackPieces[0] =
-            board[0][0] = new Rook(false, new Location(0, 0), 0, this);
+            board[0][0] = new Rook(false, new Location(0, 0), 0);
         blackPieces[1] =
-            board[1][0] = new Knight(false, new Location(1, 0), 1, this);
+            board[1][0] = new Knight(false, new Location(1, 0), 1);
         blackPieces[2] =
-            board[2][0] = new Bishop(false, new Location(2, 0), 2, this);
+            board[2][0] = new Bishop(false, new Location(2, 0), 2);
         blackPieces[3] =
-            board[3][0] = new Queen(false, new Location(3, 0), 3, this);
+            board[3][0] = new Queen(false, new Location(3, 0), 3);
         blackPieces[4] =
-            board[4][0] = new King(false, new Location(4, 0), 4, this);
+            board[4][0] = new King(false, new Location(4, 0), 4);
         blackPieces[5] =
-            board[5][0] = new Bishop(false, new Location(5, 0), 5, this);
+            board[5][0] = new Bishop(false, new Location(5, 0), 5);
         blackPieces[6] =
-            board[6][0] = new Knight(false, new Location(6, 0), 6, this);
+            board[6][0] = new Knight(false, new Location(6, 0), 6);
         blackPieces[7] =
-            board[7][0] = new Rook(false, new Location(7, 0), 7, this);
+            board[7][0] = new Rook(false, new Location(7, 0), 7);
 
         // Creates white pieces except pawns
         whitePieces[0] =
-            board[0][7] = new Rook(true, new Location(0, 7), 0, this);
+            board[0][7] = new Rook(true, new Location(0, 7), 0);
         whitePieces[1] =
-            board[1][7] = new Knight(true, new Location(1, 7), 1, this);
+            board[1][7] = new Knight(true, new Location(1, 7), 1);
         whitePieces[2] =
-            board[2][7] = new Bishop(true, new Location(2, 7), 2, this);
+            board[2][7] = new Bishop(true, new Location(2, 7), 2);
         whitePieces[3] =
-            board[3][7] = new Queen(true, new Location(3, 7), 3, this);
+            board[3][7] = new Queen(true, new Location(3, 7), 3);
         whitePieces[4] =
-            board[4][7] = new King(true, new Location(4, 7), 4, this);
+            board[4][7] = new King(true, new Location(4, 7), 4);
         whitePieces[5] =
-            board[5][7] = new Bishop(true, new Location(5, 7), 5, this);
+            board[5][7] = new Bishop(true, new Location(5, 7), 5);
         whitePieces[6] =
-            board[6][7] = new Knight(true, new Location(6, 7), 6, this);
+            board[6][7] = new Knight(true, new Location(6, 7), 6);
         whitePieces[7] =
-            board[7][7] = new Rook(true, new Location(7, 7), 7, this);
+            board[7][7] = new Rook(true, new Location(7, 7), 7);
 
         // Creates all pawns
         for (int ii = 0; ii < 8; ii++)
         {
             blackPieces[ii + 8] =
                 board[ii][1] =
-                    new Pawn(false, new Location(ii, 1), ii + 7, this);
+                    new Pawn(false, new Location(ii, 1), ii + 7);
             whitePieces[ii + 8] =
                 board[ii][6] =
-                    new Pawn(true, new Location(ii, 6), ii + 7, this);
+                    new Pawn(true, new Location(ii, 6), ii + 7);
         }
 
         whiteTurn = true;
@@ -232,11 +232,13 @@ public class Chessboard
      *            the array containing all whitePieces
      * @param blackPieceArray
      *            the array containing all blackPieces
+     * @param tempBoard
      * @return true if the player is in check
      */
     public ArrayList<Piece> check(
         Piece[] whitePieceArray,
-        Piece[] blackPieceArray)
+        Piece[] blackPieceArray,
+        Piece[][] tempBoard)
     {
         int kingX;
         int kingY;
@@ -254,7 +256,7 @@ public class Chessboard
             kingY = whitePieceArray[4].getLocal().y();
             for (Piece piece : blackPieceArray)
             {
-                if (piece != null && canThisPieceHitXandY(piece, kingX, kingY))
+                if (piece != null && canThisPieceHitXandY(piece, kingX, kingY, tempBoard))
                 {
                     piecesGivingCheck.add(piece);
                 }
@@ -272,7 +274,7 @@ public class Chessboard
             kingY = blackPieceArray[4].getLocal().y();
             for (Piece piece : whitePieceArray)
             {
-                if (piece != null && canThisPieceHitXandY(piece, kingX, kingY))
+                if (piece != null && canThisPieceHitXandY(piece, kingX, kingY, tempBoard))
                 {
                     piecesGivingCheck.add(piece);
                 }
@@ -300,7 +302,7 @@ public class Chessboard
         }
 
         boolean legalMove = false;
-        for (Location move : piece.getLegalMoves())
+        for (Location move : piece.getLegalMoves(board))
         {
             if (move.equals(newLocal))
             {
@@ -317,17 +319,28 @@ public class Chessboard
         // checks if moving the piece puts their king in check
         Piece[] tempBlackArray = blackPieces;
         Piece[] tempWhiteArray = whitePieces;
+        Piece[][] tempBoard = board;
 
         if (piece.getIsWhite())
         {
             tempWhiteArray[piece.getInColorArray()] = piece;
+            if (board[newLocal.x()][newLocal.y()] != null)
+            {
+                tempBlackArray[board[newLocal.x()][newLocal.y()].getInColorArray()] = null;
+                tempBoard[newLocal.x()][newLocal.y()] = null;
+            }
         }
         else
         {
             tempBlackArray[piece.getInColorArray()] = piece;
+            if (board[newLocal.x()][newLocal.y()] != null)
+            {
+                tempWhiteArray[board[newLocal.x()][newLocal.y()].getInColorArray()] = null;
+                tempBoard[newLocal.x()][newLocal.y()] = null;
+            }
         }
 
-        if (!check(tempWhiteArray, tempBlackArray).isEmpty())
+        if (!check(tempWhiteArray, tempBlackArray, tempBoard).isEmpty())
         {
             return false;
         }
@@ -365,7 +378,7 @@ public class Chessboard
             }
         }
         Piece newPiece = piece;
-        if ((newLocal.x() == 0 || newLocal.y() == 7)
+        if ((newLocal.y() == 0 || newLocal.y() == 7)
             && piece.getClass() == Pawn.class)
         {
 // GET USER INPUT HERE
@@ -373,7 +386,7 @@ public class Chessboard
 // if (Queen)
 // {
 // newPiece = new Queen (piece.getIsWhite(), newX, newY,
-// piece.getInColorArray(), this);
+// piece.getInColorArray());
 // }
 // else if (Rook)
 // {
@@ -383,19 +396,18 @@ public class Chessboard
 // else if (Bishop)
 // {
 // newPiece = new Bishop (piece.getIsWhite(), newX, newY,
-// piece.getInColorArray(), this);
+// piece.getInColorArray());
 // }
 // else
 // {
 // newPiece = new Knight (piece.getIsWhite(), newX, newY,
-// piece.getInColorArray(), this);
+// piece.getInColorArray());
 // }
             newPiece =
                 new Queen(
                     piece.getIsWhite(),
                     newLocal,
-                    piece.getInColorArray(),
-                    this);
+                    piece.getInColorArray());
         }
         board[newLocal.x()][newLocal.y()] = newPiece;
 
@@ -409,11 +421,12 @@ public class Chessboard
      * @param piece
      * @param kingX
      * @param kingY
+     * @param tempBoard
      * @return the piece if it can
      */
-    public boolean canThisPieceHitXandY(Piece piece, int kingX, int kingY)
+    public boolean canThisPieceHitXandY(Piece piece, int kingX, int kingY, Piece[][] tempBoard)
     {
-        for (Location move : piece.getLegalMoves())
+        for (Location move : piece.getLegalMoves(tempBoard))
         {
             if (move.x() == kingX && move.y() == kingY)
             {

@@ -112,7 +112,7 @@ public class Location
                 break;
         }
 
-        output += (8 - yCoord) + " " + xCoord + ", " + yCoord;
+        output += (8 - yCoord);
         return output;
     }
 

@@ -21,7 +21,7 @@ public class AIGameTest extends TestCase
         AIGame game = new AIGame();
         Chessboard board = new Chessboard();
 
-        for (int ii = 0; ii < 50; ii++)
+        for (int ii = 0; ii < 100; ii++)
         {
             System.out.println(game.run(board));
         }

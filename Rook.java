@@ -22,12 +22,10 @@ public class Rook extends Piece
      * @param color true if white and false if black
      * @param location The location of the piece
      * @param posInArray the position in the array of those color pieces
-     * @param chessBoard the board the piece is on.
      */
-    public Rook(boolean color, Location location, int posInArray,
-        Chessboard chessBoard)
+    public Rook(boolean color, Location location, int posInArray)
     {
-        super(color, location, posInArray, chessBoard);
+        super(color, location, posInArray);
         legalVectors.add(new Location (-1, 0));
         legalVectors.add(new Location (0, -1));
         legalVectors.add(new Location (0, 1));
