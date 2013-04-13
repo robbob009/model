@@ -87,6 +87,4 @@ public class King extends Piece
         this.local = local;
         super.setLocal(local);
     }
-
-
 }

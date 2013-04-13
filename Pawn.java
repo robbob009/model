@@ -85,7 +85,7 @@ public class Pawn extends Piece
         }
         else if (!this.getIsWhite() && local.y() == 1 &&
             board[local.x()][local.y() + 2] == null
-            && board[local.x()][local.y() - 1] == null)
+            && board[local.x()][local.y() + 1] == null)
         {
             legalMoves.add(new Location (local.x(), local.y() + 2));
         }

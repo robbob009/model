@@ -24,19 +24,19 @@ public class AIGame
      *            the board the move is being made on
      * @return the move in chess notation
      */
-    public String run(Chessboard board)
+    public String run(Game game)
     {
         String output = "";
         Random rand = new Random();
         Piece[] pieces;
-        Boolean whiteTurn = board.getWhiteTurn();
+        Boolean whiteTurn = game.getWhiteTurn();
         if (whiteTurn)
         {
-            pieces = board.getWhitePieces();
+            pieces = game.getWhitePieces();
         }
         else
         {
-            pieces = board.getBlackPieces();
+            pieces = game.getBlackPieces();
         }
 
         ArrayList<Piece> piecesWithMoves = new ArrayList<Piece>();
@@ -45,7 +45,7 @@ public class AIGame
         {
             if (piece != null)
             {
-                for (Location move : piece.getLegalMoves(board.getBoard()))
+                for (Location move : piece.getLegalMoves(game.getBoard()))
                 {
                     piecesWithMoves.add(piece);
                     movesWithPieces.add(move);
@@ -59,7 +59,7 @@ public class AIGame
         {
 
             posInMoveArray = rand.nextInt(movesWithPieces.size());
-            if (!board.isLegalMove(
+            if (!game.isLegalMove(
                 piecesWithMoves.get(posInMoveArray),
                 movesWithPieces.get(posInMoveArray)))
             {
@@ -70,7 +70,7 @@ public class AIGame
             }
             illegalMove = false;
 
-//            Piece[][] chessBoard = board.getBoard();
+//            Piece[][] chessBoard = game.getBoard();
 //            for (int ii = 0; ii < 8; ii++)
 //            {
 //                for (int jj = 0; jj < 8; jj++)
@@ -83,7 +83,7 @@ public class AIGame
 //            }
         }
 
-        board.move(
+        game.move(
             piecesWithMoves.get(posInMoveArray),
             movesWithPieces.get(posInMoveArray));
 

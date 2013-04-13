@@ -5,23 +5,23 @@ import java.util.ArrayList;
 public class KnightTest extends student.TestCase
 {
 
-    Chessboard board;
+    Game game;
 
     public void setUp()
     {
-        board = new Chessboard();
+        game = new Game();
     }
 
     public void testMove()
     {
-    assertNull(board.getBoard()[0][5]);
-    board.move(board.getWhitePieces()[1], new Location (0, 5));
+    assertNull(game.getBoard()[0][5]);
+    game.move(game.getWhitePieces()[1], new Location (0, 5));
 
-    assertNotNull(board.getBoard()[0][5]);
-    ArrayList<Location> moves = board.getWhitePieces()[1].getLegalMoves(board.getBoard());
+    assertNotNull(game.getBoard()[0][5]);
+    ArrayList<Location> moves = game.getWhitePieces()[1].getLegalMoves(game.getBoard());
 
-    System.out.println(board.getBoard()[0][5].toString());
-    System.out.println(board.getWhitePieces()[1].toString());
+    System.out.println(game.getBoard()[0][5].toString());
+    System.out.println(game.getWhitePieces()[1].toString());
     for (Location move : moves)
     {
         System.out.println(move.toString());
