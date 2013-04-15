@@ -16,6 +16,8 @@ public class Pawn extends Piece
 {
     //~ Fields ................................................................
 
+    //TEST CHANGE
+
     private Location local;
     private ArrayList<Location> legalMoves;
     private Piece offsetObject;
