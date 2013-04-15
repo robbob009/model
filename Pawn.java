@@ -21,6 +21,7 @@ public class Pawn extends Piece
     private Location local;
     private ArrayList<Location> legalMoves;
     private Piece offsetObject;
+    private boolean balls;
 
     //~ Constructor ...........................................................
     // ----------------------------------------------------------
