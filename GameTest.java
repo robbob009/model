@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Iterator;
-import java.util.Random;
 import java.util.ArrayList;
 
 // -------------------------------------------------------------------------
@@ -14,6 +13,10 @@ import java.util.ArrayList;
 public class GameTest
     extends student.TestCase
 {
+
+    /**
+     * The game used in all tests
+     */
     Game game;
 
 
@@ -60,6 +63,9 @@ public class GameTest
     }
 
 
+    /**
+     * Tests getting the list of legal moves for
+     */
     public void testLegalMoves()
     {
         game.clearBoard();
@@ -68,19 +74,11 @@ public class GameTest
         game.add(new King(false, new Location(7, 7), 4));
         game.add(new Rook(false, new Location(5, 2), 2));
 
-        Piece[] pieces;
-        Boolean whiteTurn = game.getWhiteTurn();
-        if (whiteTurn)
-        {
-            pieces = game.getWhitePieces();
-        }
-        else
-        {
-            pieces = game.getBlackPieces();
-        }
+        Piece[] pieces = game.getWhitePieces();
 
         ArrayList<Piece> piecesWithMoves = new ArrayList<Piece>();
         ArrayList<Location> movesWithPieces = new ArrayList<Location>();
+
         for (Piece piece : pieces)
         {
             if (piece != null)
@@ -106,11 +104,15 @@ public class GameTest
 
         for (int ii = 0; ii < piecesWithMoves.size(); ii++)
         {
-            System.out.println(movesWithPieces.get(ii).toString(piecesWithMoves.get(ii)));
+            System.out.println(movesWithPieces.get(ii).toString(
+                piecesWithMoves.get(ii)));
         }
 
     }
 
+    /**
+     * Tests the game's ability to take a piece.
+     */
     public void testTake()
     {
         game.clearBoard();
@@ -118,10 +120,10 @@ public class GameTest
         game.add(new King(true, new Location(7, 7), 4));
         game.add(new King(false, new Location(0, 0), 4));
         game.add(new Pawn(true, new Location(4, 4), 0));
-        game.add(new Knight(false, new Location (5, 2), 0));
+        game.add(new Knight(false, new Location(5, 2), 0));
         game.setWhiteTurn(false);
         game.move(game.getBlackPieces()[0], new Location(4, 4));
-        game.move(game.getWhitePieces()[4], new Location (6, 7));
+        game.move(game.getWhitePieces()[4], new Location(6, 7));
         game.move(game.getBlackPieces()[0], new Location(5, 2));
 
         assertNull(game.getBoard()[4][4]);

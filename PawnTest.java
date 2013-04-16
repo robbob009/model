@@ -2,12 +2,25 @@ package model;
 
 import java.util.ArrayList;
 
+// -------------------------------------------------------------------------
+/**
+ *  Tests the pawn class.
+ *
+ *  @author Robert Scheible (scheible)
+ *  @version Apr 16, 2013
+ */
 public class PawnTest
     extends student.TestCase
 {
+    /**
+     * The game on which the tests take place.
+     */
     Game game;
 
 
+    /**
+     * Creates a new game to test.
+     */
     public void setUp()
     {
         game = new Game();
@@ -57,6 +70,9 @@ public class PawnTest
     }
 
 
+    /**
+     * Tests the pawn moving.
+     */
     public void testMove()
     {
         assertNull(game.getBoard()[1][4]);

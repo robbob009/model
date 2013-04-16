@@ -2,8 +2,19 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * // -------------------------------------------------------------------------
+/**
+ *  Tests the Queen class
+ *
+ *  @author Robert Scheible (scheible)
+ *  @version Apr 16, 2013
+ */
 public class QueenTest extends student.TestCase
 {
+    /**
+     * Tests getting all of the queens legal moves.
+     */
     public void testQueenMoves()
     {
         Game game = new Game();

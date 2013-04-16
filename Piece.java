@@ -96,7 +96,12 @@ public class Piece
         return legalMoves;
     }
 
-
+    /**
+     * checks if one piece is equal to another.
+     * @param piece is the piece that this is being compared with.
+     *
+     * @return true of the pieces are the same.
+     */
     public boolean equals(Piece piece)
     {
         return this.getIsWhite() == piece.getIsWhite()
@@ -105,6 +110,9 @@ public class Piece
     }
 
 
+    /**
+     * Prints out the piece to a string
+     */
     public String toString()
     {
         String output = "";

@@ -76,6 +76,10 @@ public class Game
 
     // ~ Methods ...............................................................
 
+    /**
+     * Prints out the board, showing the positions of all pieces in console.
+     * Does not show the color of each piece.
+     */
     public void print()
     {
         for (int ii = 0; ii < 8; ii++)
@@ -128,12 +132,24 @@ public class Game
     }
 
 
+    /**
+     * Sets the chessboard to the given board.
+     *
+     * @param board
+     *            is a new chessboard.
+     */
     public void setBoard(Piece[][] board)
     {
         this.board = board;
     }
 
 
+    /**
+     * Adds a piece to the board and the array of pieces
+     *
+     * @param piece
+     *            is the piece being added to board.
+     */
     public void add(Piece piece)
     {
         if (piece.getIsWhite())
@@ -149,7 +165,6 @@ public class Game
     }
 
 
-    // ----------------------------------------------------------
     /**
      * Returns the array of all white pieces
      *
@@ -161,7 +176,6 @@ public class Game
     }
 
 
-    // ----------------------------------------------------------
     /**
      * Sets the array of white pieces to whatever the new array is
      *
@@ -174,7 +188,6 @@ public class Game
     }
 
 
-    // ----------------------------------------------------------
     /**
      * Returns the array of all black pieces
      *
@@ -186,7 +199,6 @@ public class Game
     }
 
 
-    // ----------------------------------------------------------
     /**
      * Sets the blackPieces to the new array passed in
      *
@@ -228,6 +240,11 @@ public class Game
     }
 
 
+    /**
+     * Checks if there are any pieces that can give check to the current player
+     *
+     * @return the arrayList of all pieces that can hit the king
+     */
     public ArrayList<Piece> check()
     {
         return check(whitePieces, blackPieces, board);
@@ -242,7 +259,7 @@ public class Game
      * @param blackPieceArray
      *            the array containing all blackPieces
      * @param tempBoard
-     * @return true if the player is in check
+     * @return the arrayList of all pieces that can hit the king
      */
     public ArrayList<Piece> check(
         Piece[] whitePieceArray,
@@ -400,28 +417,62 @@ public class Game
         if ((newLocal.y() == 0 || newLocal.y() == 7)
             && piece.getClass() == Pawn.class)
         {
-// GET USER INPUT HERE
-// Piece newPiece;
-// if (Queen)
-// {
-// newPiece = new Queen (piece.getIsWhite(), newX, newY,
-// piece.getInColorArray());
-// }
-// else if (Rook)
-// {
-// newPiece = new Rook(piece.getIsWhite(), newX, newY, piece.getInColorArray(),
-// this);
-// }
-// else if (Bishop)
-// {
-// newPiece = new Bishop (piece.getIsWhite(), newX, newY,
-// piece.getInColorArray());
-// }
-// else
-// {
-// newPiece = new Knight (piece.getIsWhite(), newX, newY,
-// piece.getInColorArray());
-// }
+
+            switch (getPawnPromotion())
+            {
+                case (0):
+                    board[newLocal.x()][newLocal.y()] =
+                        new Queen(
+                            piece.getIsWhite(),
+                            newLocal,
+                            piece.getInColorArray());
+                    break;
+                case (1):
+                    board[newLocal.x()][newLocal.y()] =
+                        new Rook(
+                            piece.getIsWhite(),
+                            newLocal,
+                            piece.getInColorArray());
+                    break;
+                case (2):
+                    board[newLocal.x()][newLocal.y()] =
+                        new Knight(
+                            piece.getIsWhite(),
+                            newLocal,
+                            piece.getInColorArray());
+                    break;
+                case (3):
+                    board[newLocal.x()][newLocal.y()] =
+                        new Bishop(
+                            piece.getIsWhite(),
+                            newLocal,
+                            piece.getInColorArray());
+                    break;
+
+            }
+            // GET USER INPUT HERE
+            // Piece newPiece;
+            // if (Queen)
+            // {
+            // newPiece = new Queen (piece.getIsWhite(), newX, newY,
+            // piece.getInColorArray());
+            // }
+            // else if (Rook)
+            // {
+            // newPiece = new Rook(piece.getIsWhite(), newX, newY,
+// piece.getInColorArray(),
+            // this);
+            // }
+            // else if (Bishop)
+            // {
+            // newPiece = new Bishop (piece.getIsWhite(), newX, newY,
+            // piece.getInColorArray());
+            // }
+            // else
+            // {
+            // newPiece = new Knight (piece.getIsWhite(), newX, newY,
+            // piece.getInColorArray());
+            // }
             board[newLocal.x()][newLocal.y()] =
                 new Queen(piece.getIsWhite(), newLocal, piece.getInColorArray());
         }
@@ -431,6 +482,22 @@ public class Game
         }
 
         whiteTurn = !whiteTurn;
+    }
+
+
+    /**
+     * Gets user input, tells what piece to promote pawn to.
+     * 0: Queen
+     * 1: Rook
+     * 2: Knight
+     * 3: Bishop
+     *
+     * @return the int corresponding to the piece which you want to promote the
+     *         pawn to.
+     */
+    public int getPawnPromotion()
+    {
+        return 0;
     }
 
 

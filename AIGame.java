@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Set;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,8 +19,8 @@ public class AIGame
     /**
      * Attempts to make a random move.
      *
-     * @param board
-     *            the board the move is being made on
+     * @param game
+     *            the game in which the AI is playing
      * @return the move in chess notation
      */
     public String run(Game game)
