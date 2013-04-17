@@ -44,45 +44,7 @@ public class Location
 
     public String toString()
     {
-        return toString(null);
-    }
-
-
-    /**
-     * Prints the coordinates of the location to a string, using chess
-     * coordinates
-     *
-     * @param piece
-     *            the piece that the location is being found for
-     * @return the coordinates of the location
-     */
-    public String toString(Piece piece)
-    {
-
         String output = "";
-        if (piece != null)
-        {
-            if (piece.getClass() == King.class)
-            {
-                output += "K";
-            }
-            else if (piece.getClass() == Queen.class)
-            {
-                output += "Q";
-            }
-            else if (piece.getClass() == Rook.class)
-            {
-                output += "R";
-            }
-            else if (piece.getClass() == Bishop.class)
-            {
-                output += "B";
-            }
-            else if (piece.getClass() == Knight.class)
-            {
-                output += "N";
-            }
-        }
 
         switch (xCoord)
         {

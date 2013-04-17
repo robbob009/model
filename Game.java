@@ -77,6 +77,80 @@ public class Game
     // ~ Methods ...............................................................
 
     /**
+     * Gets all possible moves for the current player.
+     * @return the possible moves.
+     */
+    public ArrayList<Move> getLegalMoves()
+    {
+        return getLegalMoves(getWhiteTurn());
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * Returns an array of arraylists, containing a list of pieces and
+     * a corresponding list of locations those pieces can move to.
+     * @param color The color of the piece
+     * @return an array of arrayLists
+     */
+    public ArrayList<Move> getLegalMoves(boolean color)
+    {
+        ArrayList<Move> legalMoves = new ArrayList<Move>();
+        Piece[] pieces;
+
+        if (color)
+        {
+            pieces = getWhitePieces();
+        }
+        else
+        {
+            pieces = getBlackPieces();
+        }
+
+        for (Piece piece : pieces)
+        {
+            if (piece != null)
+            {
+                for (Move move : piece.getLegalMoves(getBoard()))
+                {
+                    if (isLegalMove(move))
+                    {
+                        legalMoves.add(move);
+                    }
+                }
+            }
+        }
+        return legalMoves;
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Checks if the current player can make any moves.  Otherwise,
+     * they have been checkmated.
+     */
+    public void checkMate()
+    {
+        ArrayList<Move> possibleMoves = getLegalMoves();
+        if (possibleMoves.isEmpty())
+        {
+            String output = "";
+            if (getWhiteTurn())
+            {
+                output += "White ";
+            }
+            else
+            {
+                output += "Black ";
+            }
+            output += "has been checkmated!";
+            System.out.println(output);
+            System.exit(0);
+        }
+
+
+    }
+
+    /**
      * Prints out the board, showing the positions of all pieces in console.
      * Does not show the color of each piece.
      */
@@ -314,24 +388,25 @@ public class Game
 
 
     /**
-     * Place a description of your method here.
+     * Checks to see if the move is legal
      *
-     * @param piece
-     *            The piece whose move is being checked
-     * @param newLocal
-     *            location of the move
+     * @param move is the move being checked.
+     *
      * @return whether or not the move is legal (boolean)
      */
-    public boolean isLegalMove(Piece piece, Location newLocal)
+    public boolean isLegalMove(Move move)
     {
+        Piece piece = move.getPiece();
         if (piece.getIsWhite() != getWhiteTurn())
         {
             return false;
         }
+
         boolean legalMove = false;
-        for (Location move : piece.getLegalMoves(board))
+
+        for (Move checkingMove : piece.getLegalMoves(board))
         {
-            if (move.equals(newLocal))
+            if (move.equals(checkingMove))
             {
                 legalMove = true;
                 break;
@@ -357,24 +432,24 @@ public class Game
 
         if (piece.getIsWhite())
         {
-            if (board[newLocal.x()][newLocal.y()] != null)
+            if (board[move.getLocal().x()][move.getLocal().y()] != null)
             {
-                tempBlackArray[board[newLocal.x()][newLocal.y()]
+                tempBlackArray[board[move.getLocal().x()][move.getLocal().y()]
                     .getInColorArray()] = null;
             }
         }
         else
         {
-            if (board[newLocal.x()][newLocal.y()] != null)
+            if (board[move.getLocal().x()][move.getLocal().y()] != null)
             {
-                tempWhiteArray[board[newLocal.x()][newLocal.y()]
+                tempWhiteArray[board[move.getLocal().x()][move.getLocal().y()]
                     .getInColorArray()] = null;
             }
         }
 
-        tempBoard[newLocal.x()][newLocal.y()] = piece;
+        tempBoard[move.getLocal().x()][move.getLocal().y()] = piece;
         Location oldLocal = piece.getLocal();
-        piece.setLocal(newLocal);
+        piece.setLocal(move.getLocal());
 
         if (!check(tempWhiteArray, tempBlackArray, tempBoard).isEmpty())
         {
@@ -394,28 +469,28 @@ public class Game
      * @param newLocal
      *            the location the piece is being moved to
      */
-    public void move(Piece piece, Location newLocal)
+    public void move(Move move)
     {
-        board[piece.getLocal().x()][piece.getLocal().y()] = null;
+        board[move.getPiece().getLocal().x()][move.getPiece().getLocal().y()] = null;
 
-        piece.setLocal(newLocal);
+        move.getPiece().setLocal(move.getLocal());
 
         // Taking a piece
-        if (board[newLocal.x()][newLocal.y()] != null)
+        if (board[move.getLocal().x()][move.getLocal().y()] != null)
         {
-            if (board[newLocal.x()][newLocal.y()].getIsWhite())
+            if (board[move.getLocal().x()][move.getLocal().y()].getIsWhite())
             {
-                whitePieces[board[newLocal.x()][newLocal.y()].getInColorArray()] =
+                whitePieces[board[move.getLocal().x()][move.getLocal().y()].getInColorArray()] =
                     null;
             }
             else
             {
-                blackPieces[board[newLocal.x()][newLocal.y()].getInColorArray()] =
+                blackPieces[board[move.getLocal().x()][move.getLocal().y()].getInColorArray()] =
                     null;
             }
         }
-        if ((newLocal.y() == 0 || newLocal.y() == 7)
-            && piece.getClass() == Pawn.class)
+        if ((move.getLocal().y() == 0 || move.getLocal().y() == 7)
+            && move.getPiece().getClass() == Pawn.class)
         {
 
             switch (getPawnPromotion())
@@ -450,29 +525,6 @@ public class Game
                     break;
 
             }
-            // GET USER INPUT HERE
-            // Piece newPiece;
-            // if (Queen)
-            // {
-            // newPiece = new Queen (piece.getIsWhite(), newX, newY,
-            // piece.getInColorArray());
-            // }
-            // else if (Rook)
-            // {
-            // newPiece = new Rook(piece.getIsWhite(), newX, newY,
-// piece.getInColorArray(),
-            // this);
-            // }
-            // else if (Bishop)
-            // {
-            // newPiece = new Bishop (piece.getIsWhite(), newX, newY,
-            // piece.getInColorArray());
-            // }
-            // else
-            // {
-            // newPiece = new Knight (piece.getIsWhite(), newX, newY,
-            // piece.getInColorArray());
-            // }
             board[newLocal.x()][newLocal.y()] =
                 new Queen(piece.getIsWhite(), newLocal, piece.getInColorArray());
         }
@@ -497,6 +549,7 @@ public class Game
      */
     public int getPawnPromotion()
     {
+        //TODO: get user input
         return 0;
     }
 
@@ -516,9 +569,9 @@ public class Game
         int kingY,
         Piece[][] tempBoard)
     {
-        for (Location move : piece.getLegalMoves(tempBoard))
+        for (Move move : piece.getLegalMoves(tempBoard))
         {
-            if (move.x() == kingX && move.y() == kingY)
+            if (move.getLocal().x() == kingX && move.getLocal().y() == kingY)
             {
                 return true;
             }

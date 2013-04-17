@@ -38,33 +38,29 @@ public class AIGame
             pieces = game.getBlackPieces();
         }
 
-        ArrayList<Piece> piecesWithMoves = new ArrayList<Piece>();
-        ArrayList<Location> movesWithPieces = new ArrayList<Location>();
+        ArrayList<Move> moves = new ArrayList<Move>();
+
         for (Piece piece : pieces)
         {
             if (piece != null)
             {
-                for (Location move : piece.getLegalMoves(game.getBoard()))
+                for (Move move : piece.getLegalMoves(game.getBoard()))
                 {
-                    piecesWithMoves.add(piece);
-                    movesWithPieces.add(move);
+                    moves.add(move);
                 }
             }
         }
 
         boolean illegalMove = true;
-        int posInMoveArray = 0;
+        int randMove = 0;
         while (illegalMove)
         {
 
-            posInMoveArray = rand.nextInt(movesWithPieces.size());
-            if (!game.isLegalMove(
-                piecesWithMoves.get(posInMoveArray),
-                movesWithPieces.get(posInMoveArray)))
+            randMove = rand.nextInt(moves.size());
+            if (!game.isLegalMove(moves.get(randMove)))
             {
 
-                piecesWithMoves.remove(posInMoveArray);
-                movesWithPieces.remove(posInMoveArray);
+                moves.remove(randMove);
                 continue;
             }
             illegalMove = false;
@@ -82,9 +78,7 @@ public class AIGame
 //            }
         }
 
-        game.move(
-            piecesWithMoves.get(posInMoveArray),
-            movesWithPieces.get(posInMoveArray));
+        game.move(moves.get(randMove));
 
         if (whiteTurn)
         {

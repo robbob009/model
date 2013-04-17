@@ -15,16 +15,16 @@ public class Piece
 {
     // ~ Fields ................................................................
 
-    private boolean             isWhite;
-    private boolean             isActive;
-    private ArrayList<Location> legalMoves;
-    private Location            local;
-    private int                 inColorArray;
+    private boolean            isWhite;
+    private boolean            isActive;
+    private ArrayList<Move>    legalMoves;
+    private Location           local;
+    private int                inColorArray;
 
     /**
      * legalVectors will be overwritten by every chess piece upon construction.
      */
-    public ArrayList<Location>  legalVectors;
+    public ArrayList<Location> legalVectors;
 
 
     // ~ Constructor ...........................................................
@@ -58,9 +58,9 @@ public class Piece
      *            The board the move is being checked on
      * @return returns all legal moves for the piece at this location
      */
-    public ArrayList<Location> getLegalMoves(Piece[][] board)
+    public ArrayList<Move> getLegalMoves(Piece[][] board)
     {
-        legalMoves = new ArrayList<Location>();
+        legalMoves = new ArrayList<Move>();
 
         for (Location vector : this.getLegalVectors())
         {
@@ -74,16 +74,14 @@ public class Piece
                     if (board[local.x() + i * vector.x()][local.y() + i
                         * vector.y()] == null)
                     {
-                        legalMoves.add(new Location(
-                            vector.x() * i + local.x(),
-                            vector.y() * i + local.y()));
+                        legalMoves.add(new Move(this, new Location(vector.x()
+                            * i + local.x(), vector.y() * i + local.y())));
                     }
                     else if ((board[local.x() + i * vector.x()][local.y() + i
                         * vector.y()].getIsWhite()) != this.getIsWhite())
                     {
-                        legalMoves.add(new Location(
-                            vector.x() * i + local.x(),
-                            vector.y() * i + local.y()));
+                        legalMoves.add(new Move(this, new Location(vector.x()
+                            * i + local.x(), vector.y() * i + local.y())));
                         break;
                     }
                     else
@@ -96,10 +94,12 @@ public class Piece
         return legalMoves;
     }
 
+
     /**
      * checks if one piece is equal to another.
-     * @param piece is the piece that this is being compared with.
      *
+     * @param piece
+     *            is the piece that this is being compared with.
      * @return true of the pieces are the same.
      */
     public boolean equals(Piece piece)
