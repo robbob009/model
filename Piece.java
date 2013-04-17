@@ -111,6 +111,36 @@ public class Piece
 
 
     /**
+     * This would return a char, except that if the class is a pawn it
+     * must return ""
+     * @return the letter representing the piece in algebraic notation.
+     */
+    public String getLetter()
+    {
+        if (getClass() == King.class)
+        {
+            return "K";
+        }
+        else if (getClass() == Queen.class)
+        {
+            return "Q";
+        }
+        else if (getClass() == Rook.class)
+        {
+            return "R";
+        }
+        else if (getClass() == Bishop.class)
+        {
+            return "B";
+        }
+        else if (getClass() == Knight.class)
+        {
+            return "N";
+        }
+        return "";
+    }
+
+    /**
      * Prints out the piece to a string
      */
     public String toString()

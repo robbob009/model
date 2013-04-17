@@ -461,6 +461,8 @@ public class Game
      */
     public void move(Move move)
     {
+        String notation = move.getPiece().getLetter();
+
         board[move.getPiece().getLocal().x()][move.getPiece().getLocal().y()] =
             null;
 
@@ -471,11 +473,19 @@ public class Game
         {
             if (board[move.getLocal().x()][move.getLocal().y()].getIsWhite())
             {
+                notation +=
+                    "x"
+                        + board[move.getLocal().x()][move.getLocal().y()]
+                            .getLetter();
                 whitePieces[board[move.getLocal().x()][move.getLocal().y()]
                     .getInColorArray()] = null;
             }
             else
             {
+                notation +=
+                    "x"
+                        + board[move.getLocal().x()][move.getLocal().y()]
+                            .getLetter();
                 blackPieces[board[move.getLocal().x()][move.getLocal().y()]
                     .getInColorArray()] = null;
             }
@@ -483,15 +493,17 @@ public class Game
         if ((move.getLocal().y() == 0 || move.getLocal().y() == 7)
             && move.getPiece().getClass() == Pawn.class)
         {
-
+            notation += "=";
             switch (getPawnPromotion())
             {
+
                 case (0):
                     board[move.getLocal().x()][move.getLocal().y()] =
                         new Queen(
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
                             move.getPiece().getInColorArray());
+                    notation += "Q";
                     break;
                 case (1):
                     board[move.getLocal().x()][move.getLocal().y()] =
@@ -499,6 +511,7 @@ public class Game
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
                             move.getPiece().getInColorArray());
+                    notation += "R";
                     break;
                 case (2):
                     board[move.getLocal().x()][move.getLocal().y()] =
@@ -506,6 +519,7 @@ public class Game
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
                             move.getPiece().getInColorArray());
+                    notation += "K";
                     break;
                 case (3):
                     board[move.getLocal().x()][move.getLocal().y()] =
@@ -513,6 +527,7 @@ public class Game
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
                             move.getPiece().getInColorArray());
+                    notation += "B";
                     break;
 
             }
@@ -524,8 +539,14 @@ public class Game
         {
             board[move.getLocal().x()][move.getLocal().y()] = move.getPiece();
         }
-
+        notation += move.getLocal().toString();
         whiteTurn = !whiteTurn;
+        if (check())
+        {
+            notation += "+";
+        }
+
+        move.setNotation(notation);
     }
 
 

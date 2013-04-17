@@ -14,6 +14,7 @@ public class Move
 
     private Piece    piece;
     private Location local;
+    private String notation;
 
 
     /**
@@ -26,6 +27,20 @@ public class Move
     {
         this.piece = piece;
         this.local = local;
+        this.setNotation(this.toString());
+    }
+
+    /**
+     * Creates a new Move with a different notation
+     * @param piece
+     * @param local
+     * @param note
+     */
+    public Move(Piece piece, Location local, String note)
+    {
+        this.piece = piece;
+        this.local = local;
+        this.setNotation(note);
     }
 
 
@@ -57,34 +72,7 @@ public class Move
      */
     public String toString()
     {
-        String output = "";
-        if (piece != null)
-        {
-            if (piece.getClass() == King.class)
-            {
-                output += "K";
-            }
-            else if (piece.getClass() == Queen.class)
-            {
-                output += "Q";
-            }
-            else if (piece.getClass() == Rook.class)
-            {
-                output += "R";
-            }
-            else if (piece.getClass() == Bishop.class)
-            {
-                output += "B";
-            }
-            else if (piece.getClass() == Knight.class)
-            {
-                output += "N";
-            }
-        }
-
-        output += local.toString();
-
-        return output;
+        return piece.getLetter() + local.toString();
     }
 
 
@@ -97,5 +85,15 @@ public class Move
     {
         return this.getLocal().equals(move.getLocal())
             && this.getPiece().equals(move.getPiece());
+    }
+
+    public String getNotation()
+    {
+        return notation;
+    }
+
+    public void setNotation(String notation)
+    {
+        this.notation = notation;
     }
 }

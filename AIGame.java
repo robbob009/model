@@ -67,7 +67,7 @@ public class AIGame
             output += "Black: ";
         }
 
-        output += moves.get(randMove).toString();
+        output += moves.get(randMove).getNotation();
 
         // board.print();
         return output;
