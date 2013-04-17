@@ -2,22 +2,23 @@ package model;
 
 /**
  * // -------------------------------------------------------------------------
-/**
- *  This class contains the information for a move: the location
- *  and the piece making it.
+ * /** This class contains the information for a move: the location and the
+ * piece making it.
  *
- *  @author Robert Scheible (scheible)
- *  @version Apr 16, 2013
+ * @author Robert Scheible (scheible)
+ * @version Apr 16, 2013
  */
 public class Move
 {
     // ----------------------------------------------------------
 
-    private Piece piece;
+    private Piece    piece;
     private Location local;
+
 
     /**
      * Create a new Move object.
+     *
      * @param piece
      * @param local
      */
@@ -31,6 +32,7 @@ public class Move
     // ----------------------------------------------------------
     /**
      * Gets the piece contained in the move.
+     *
      * @return the piece
      */
     public Piece getPiece()
@@ -38,14 +40,17 @@ public class Move
         return piece;
     }
 
+
     /**
      * Gets the Location contained in the move.
+     *
      * @return the location.
      */
     public Location getLocal()
     {
         return local;
     }
+
 
     /**
      * Returns the String representation of the move
@@ -80,5 +85,17 @@ public class Move
         output += local.toString();
 
         return output;
+    }
+
+
+    /**
+     * Checks if the two moves are equivalent.
+     * @param move is the move this is being checked against.
+     * @return whether or not the two moves are equal
+     */
+    public boolean equals(Move move)
+    {
+        return this.getLocal().equals(move.getLocal())
+            && this.getPiece().equals(move.getPiece());
     }
 }

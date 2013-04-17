@@ -18,13 +18,13 @@ public class Piece
     private boolean            isWhite;
     private boolean            isActive;
     private ArrayList<Move>    legalMoves;
-    private Location           local;
+    protected Location         local;
     private int                inColorArray;
 
     /**
      * legalVectors will be overwritten by every chess piece upon construction.
      */
-    public ArrayList<Location> legalVectors;
+    protected ArrayList<Location> legalVectors;
 
 
     // ~ Constructor ...........................................................
@@ -58,7 +58,7 @@ public class Piece
      *            The board the move is being checked on
      * @return returns all legal moves for the piece at this location
      */
-    public ArrayList<Move> getLegalMoves(Piece[][] board)
+    public ArrayList<Move> getPossibleMoves(Piece[][] board)
     {
         legalMoves = new ArrayList<Move>();
 

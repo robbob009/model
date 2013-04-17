@@ -27,7 +27,6 @@ public class Queen extends Piece
 
     {
         super(color, location, posInArray);
-
         legalVectors.add(new Location (-1, -1));
         legalVectors.add(new Location (-1, 0));
         legalVectors.add(new Location (-1, 1));

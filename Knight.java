@@ -15,9 +15,6 @@ public class Knight extends Piece
 {
     //~ Fields ................................................................
 
-    private Location local;
-    private ArrayList<Location> legalMoves;
-
     //~ Constructor ...........................................................
     // ----------------------------------------------------------
     /**
@@ -29,7 +26,6 @@ public class Knight extends Piece
     public Knight(boolean color, Location location, int posInArray)
     {
         super(color, location, posInArray);
-        local = location;
         legalVectors.add(new Location (-2, -1));
         legalVectors.add(new Location (-2, 1));
         legalVectors.add(new Location (-1, -2));
@@ -38,9 +34,6 @@ public class Knight extends Piece
         legalVectors.add(new Location (1, 2));
         legalVectors.add(new Location (2, -1));
         legalVectors.add(new Location (2, 1));
-
-        legalMoves = new ArrayList<Location>();
-
     }
 
     //~ Methods ...............................................................
@@ -51,9 +44,9 @@ public class Knight extends Piece
      * @return legalMoves for the knight at this location.
      *
      */
-    public ArrayList<Location> getLegalMoves(Piece[][] board)
+    public ArrayList<Move> getPossibleMoves(Piece[][] board)
     {
-        legalMoves.clear();
+        ArrayList<Move> possibleMoves = new ArrayList<Move>();
 
         for (Location vector : this.getLegalVectors())
         {
@@ -66,7 +59,7 @@ public class Knight extends Piece
                     || board[vector.x() + local.x()][vector.y()
                         + local.y()].getIsWhite() != this.getIsWhite())
                 {
-                    legalMoves.add(new Location (vector.x() + local.x(), vector.y() + local.y()));
+                    possibleMoves.add(new Move(this, new Location (vector.x() + local.x(), vector.y() + local.y())));
                 }
                 else
                 {
@@ -74,7 +67,7 @@ public class Knight extends Piece
                 }
             }
         }
-        return legalMoves;
+        return possibleMoves;
     }
 
     public void setLocal(Location local)

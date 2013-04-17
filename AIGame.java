@@ -25,32 +25,10 @@ public class AIGame
      */
     public String run(Game game)
     {
+        game.print();
         String output = "";
         Random rand = new Random();
-        Piece[] pieces;
-        Boolean whiteTurn = game.getWhiteTurn();
-        if (whiteTurn)
-        {
-            pieces = game.getWhitePieces();
-        }
-        else
-        {
-            pieces = game.getBlackPieces();
-        }
-
-        ArrayList<Move> moves = new ArrayList<Move>();
-
-        for (Piece piece : pieces)
-        {
-            if (piece != null)
-            {
-                for (Move move : piece.getLegalMoves(game.getBoard()))
-                {
-                    moves.add(move);
-                }
-            }
-        }
-
+        ArrayList<Move> moves = game.getLegalMoves();
         boolean illegalMove = true;
         int randMove = 0;
         while (illegalMove)
@@ -65,22 +43,22 @@ public class AIGame
             }
             illegalMove = false;
 
-//            Piece[][] chessBoard = game.getBoard();
-//            for (int ii = 0; ii < 8; ii++)
-//            {
-//                for (int jj = 0; jj < 8; jj++)
-//                {
-//                    if (chessBoard[ii][jj] != null)
-//                    {
-//                        System.out.println(chessBoard[ii][jj].toString());
-//                    }
-//                }
-//            }
+// Piece[][] chessBoard = game.getBoard();
+// for (int ii = 0; ii < 8; ii++)
+// {
+// for (int jj = 0; jj < 8; jj++)
+// {
+// if (chessBoard[ii][jj] != null)
+// {
+// System.out.println(chessBoard[ii][jj].toString());
+// }
+// }
+// }
         }
 
         game.move(moves.get(randMove));
 
-        if (whiteTurn)
+        if (moves.get(randMove).getPiece().getIsWhite())
         {
             output += "White: ";
         }
@@ -89,9 +67,7 @@ public class AIGame
             output += "Black: ";
         }
 
-        output +=
-            movesWithPieces.get(posInMoveArray).toString(
-                piecesWithMoves.get(posInMoveArray));
+        output += moves.get(randMove).toString();
 
         // board.print();
         return output;
