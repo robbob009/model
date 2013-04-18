@@ -58,8 +58,9 @@ public class GameTest
         game.add(new King(false, new Location(4, 4), 4));
         game.add(new Rook(false, new Location(2, 4), 0));
 
-        boolean givingCheck = game.check();
-        assertTrue(givingCheck);
+        game.updateCheck();
+
+        assertTrue(game.isInCheck());
     }
 
 

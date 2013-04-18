@@ -25,23 +25,14 @@ public class AIGame
      */
     public String run(Game game)
     {
-        game.print();
         String output = "";
         Random rand = new Random();
-        ArrayList<Move> moves = game.getLegalMoves();
+        ArrayList<Move> moves = game.getAvailableMoves();
         boolean illegalMove = true;
         int randMove = 0;
-        while (illegalMove)
-        {
 
             randMove = rand.nextInt(moves.size());
-            if (!game.isLegalMove(moves.get(randMove)))
-            {
 
-                moves.remove(randMove);
-                continue;
-            }
-            illegalMove = false;
 
 // Piece[][] chessBoard = game.getBoard();
 // for (int ii = 0; ii < 8; ii++)
@@ -54,7 +45,7 @@ public class AIGame
 // }
 // }
 // }
-        }
+
 
         game.move(moves.get(randMove));
 
@@ -69,7 +60,6 @@ public class AIGame
 
         output += moves.get(randMove).getNotation();
 
-        // board.print();
         return output;
 
     }

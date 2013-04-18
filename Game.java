@@ -19,11 +19,16 @@ public class Game
     // The Board is an 8x8 array of pieces, with board[x][y]
     // board[0][0] is equivalent to a8, board[0][7] is a1,
     // board[7][0] is h8, board[7][7] is h1
-    private Piece[][] board;
-    private Piece[]   whitePieces;
-    private Piece[]   blackPieces;
+    private Piece[][]       board;
+    private Piece[]         whitePieces;
+    private Piece[]         blackPieces;
+    private ArrayList<Move> attackingMoves; // A list of all possible squares
+                                            // the pieces can attack
 
-    private boolean   whiteTurn;
+    private ArrayList<Move> availableMoves; // A list of all moves the player
+                                            // can actually make
+    private boolean         inCheck;
+    private boolean         whiteTurn;
 
 
     // ~ Constructor ...........................................................
@@ -71,37 +76,59 @@ public class Game
         }
 
         whiteTurn = true;
+
+        updateAttackSquares();
+        updateLegalMoves();
+    }
+
+    /**
+     * Creates a new game with the given setup: allows for the checking of
+     * potential moves.
+     *
+     * @param board
+     *            The board the pieces are set up on.
+     * @param whitePieces
+     *            an array containing all white pieces
+     * @param blackPieces
+     *            an array containing all black pieces
+     * @param turn
+     *            true if it's white's turn.
+     */
+    public Game(
+        Piece[][] board,
+        Piece[] whitePieces,
+        Piece[] blackPieces,
+        boolean turn)
+    {
+        this.whitePieces = whitePieces.clone();
+        this.blackPieces = blackPieces.clone();
+
+        this.board = new Piece[8][];
+        for (int ii = 0; ii < 8; ii++)
+        {
+            this.board[ii] = board[ii].clone();
+        }
+
+        this.whiteTurn = turn;
+
+        updateAttackSquares();
     }
 
 
     // ~ Methods ...............................................................
-
-    /**
-     * Gets all possible moves for the current player.
-     *
-     * @return the possible moves.
-     */
-    public ArrayList<Move> getLegalMoves()
-    {
-        return getLegalMoves(getWhiteTurn());
-    }
-
-
     // ----------------------------------------------------------
     /**
-     * Returns an array of arraylists, containing a list of pieces and a
-     * corresponding list of locations those pieces can move to.
+     * Place a description of your method here.
      *
-     * @param color
-     *            The color of the piece
-     * @return an array of arrayLists
+     * @return
      */
-    public ArrayList<Move> getLegalMoves(boolean color)
+    public void updateAttackSquares()
     {
-        ArrayList<Move> legalMoves = new ArrayList<Move>();
+        attackingMoves = new ArrayList<Move>();
+
         Piece[] pieces;
 
-        if (color)
+        if (whiteTurn)
         {
             pieces = getWhitePieces();
         }
@@ -116,14 +143,46 @@ public class Game
             {
                 for (Move move : piece.getPossibleMoves(getBoard()))
                 {
-                    if (isLegalMove(move))
-                    {
-                        legalMoves.add(move);
-                    }
+                    attackingMoves.add(move);
                 }
             }
         }
-        return legalMoves;
+
+    }
+
+
+    public ArrayList<Move> getAvailableMoves()
+    {
+        return availableMoves;
+    }
+
+
+    public boolean isInCheck()
+    {
+        return inCheck;
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * Returns an array of arraylists, containing a list of pieces and a
+     * corresponding list of locations those pieces can move to.
+     *
+     * @param color
+     *            The color of the piece
+     * @return an array of arrayLists
+     */
+    public void updateLegalMoves()
+    {
+        availableMoves = new ArrayList<Move>();
+
+        for (Move move : attackingMoves)
+        {
+            if (isLegalMove(move))
+            {
+                availableMoves.add(move);
+            }
+        }
     }
 
 
@@ -134,8 +193,7 @@ public class Game
      */
     public void checkMate()
     {
-        ArrayList<Move> possibleMoves = getLegalMoves();
-        if (possibleMoves.isEmpty())
+        if (availableMoves.isEmpty() && isInCheck())
         {
             String output = "";
             if (getWhiteTurn())
@@ -149,6 +207,13 @@ public class Game
             output += "has been checkmated!";
             System.out.println(output);
             System.exit(0);
+        }
+
+        if (availableMoves.isEmpty())
+        {
+            System.out.println("Stalemate!");
+            System.exit(0);
+
         }
 
     }
@@ -320,62 +385,46 @@ public class Game
 
     /**
      * Checks if there are any pieces that can give check to the current player
-     *
-     * @return the arrayList of all pieces that can hit the king
      */
-    public boolean check()
+    public void updateCheck()
     {
-        return check(whitePieces, blackPieces, board);
+        inCheck = check(whiteTurn);
     }
 
 
     /**
      * Checks if the current player is in check
      *
-     * @param whitePieceArray
-     *            the array containing all whitePieces
-     * @param blackPieceArray
-     *            the array containing all blackPieces
-     * @param tempBoard
-     * @return the arrayList of all pieces that can hit the king
+     * @param color
      */
-    public boolean check(
-        Piece[] whitePieceArray,
-        Piece[] blackPieceArray,
-        Piece[][] tempBoard)
+    public boolean check(boolean color)
     {
         Location kingLocal;
-        ArrayList<Piece> piecesGivingCheck = new ArrayList<Piece>();
-        boolean inCheck = false;
-        if (getWhiteTurn())
+        if (color)
         {
 
-            kingLocal = whitePieceArray[4].getLocal();
-            ArrayList<Move> moves = getLegalMoves(false);
-            for (Move move : moves)
+            kingLocal = whitePieces[4].getLocal();
+            for (Move move : attackingMoves)
             {
                 if (move.getLocal().equals(kingLocal))
                 {
-                    inCheck = true;
-                    break;
+                    return true;
                 }
             }
         }
         else
         {
-            kingLocal = blackPieceArray[4].getLocal();
-            ArrayList<Move> moves = getLegalMoves(true);
-            for (Move move : moves)
+            kingLocal = blackPieces[4].getLocal();
+            for (Move move : attackingMoves)
             {
                 if (move.getLocal().equals(kingLocal))
                 {
-                    inCheck = true;
-                    break;
+                    return true;
                 }
             }
         }
 
-        return inCheck;
+        return false;
     }
 
 
@@ -410,46 +459,14 @@ public class Game
             return false;
         }
 
-        // checks if moving the piece puts their king in check
-        Piece[] tempBlackArray = this.getBlackPieces().clone();
-        Piece[] tempWhiteArray = this.getWhitePieces().clone();
+        // checks if moving the piece puts their own king in check
+        Game potentialGame =
+            new Game(board, blackPieces, whitePieces, whiteTurn);
 
-        Piece[][] tempBoard = new Piece[8][];
-        for (int ii = 0; ii < 8; ii++)
-        {
-            tempBoard[ii] = board[ii].clone();
-        }
+        potentialGame.move(move);
 
-        tempBoard[piece.getLocal().x()][piece.getLocal().y()] = null;
+        return !potentialGame.check(whiteTurn);
 
-        if (piece.getIsWhite())
-        {
-            if (board[move.getLocal().x()][move.getLocal().y()] != null)
-            {
-                tempBlackArray[board[move.getLocal().x()][move.getLocal().y()]
-                    .getInColorArray()] = null;
-            }
-        }
-        else
-        {
-            if (board[move.getLocal().x()][move.getLocal().y()] != null)
-            {
-                tempWhiteArray[board[move.getLocal().x()][move.getLocal().y()]
-                    .getInColorArray()] = null;
-            }
-        }
-
-        tempBoard[move.getLocal().x()][move.getLocal().y()] = piece;
-        Location oldLocal = piece.getLocal();
-        piece.setLocal(move.getLocal());
-
-        if (check(tempWhiteArray, tempBlackArray, tempBoard))
-        {
-            piece.setLocal(oldLocal);
-            return false;
-        }
-        piece.setLocal(oldLocal);
-        return true;
     }
 
 
@@ -471,25 +488,26 @@ public class Game
         // Taking a piece
         if (board[move.getLocal().x()][move.getLocal().y()] != null)
         {
-            if (board[move.getLocal().x()][move.getLocal().y()].getIsWhite())
+            if (notation.equals(""))
             {
                 notation +=
-                    "x"
-                        + board[move.getLocal().x()][move.getLocal().y()]
-                            .getLetter();
+                    move.getPiece().getLocal().toString().substring(0, 1);
+            }
+            if (board[move.getLocal().x()][move.getLocal().y()].getIsWhite())
+            {
+                notation += "x";
                 whitePieces[board[move.getLocal().x()][move.getLocal().y()]
                     .getInColorArray()] = null;
             }
             else
             {
-                notation +=
-                    "x"
-                        + board[move.getLocal().x()][move.getLocal().y()]
-                            .getLetter();
+                notation += "x";
                 blackPieces[board[move.getLocal().x()][move.getLocal().y()]
                     .getInColorArray()] = null;
             }
         }
+        notation += move.getLocal().toString();
+
         if ((move.getLocal().y() == 0 || move.getLocal().y() == 7)
             && move.getPiece().getClass() == Pawn.class)
         {
@@ -539,9 +557,12 @@ public class Game
         {
             board[move.getLocal().x()][move.getLocal().y()] = move.getPiece();
         }
-        notation += move.getLocal().toString();
+
         whiteTurn = !whiteTurn;
-        if (check())
+
+        updateCheck();
+
+        if (inCheck)
         {
             notation += "+";
         }
