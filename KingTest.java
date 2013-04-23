@@ -1,20 +1,18 @@
 package model;
-import java.util.ArrayList;;
 
+// -------------------------------------------------------------------------
 /**
- * // -------------------------------------------------------------------------
-/**
- *  The test class for the bishop class. It helps find code that isn't working
- *  and can be used for further debugging
+ *  This is the test class for the king piece class. This is used for testing
+ *  code and can be used for debugging.
  *
  *  @author Jack
  *  @author Loran
  *  @author Robert
+ *
  *  @version Apr 23, 2013
  */
-public class BishopTest extends student.TestCase
+public class KingTest extends student.TestCase
 {
-
     /**
      * The game on which the tests take place.
      */
@@ -28,5 +26,4 @@ public class BishopTest extends student.TestCase
     {
         game = new Game();
     }
-
 }

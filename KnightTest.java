@@ -7,6 +7,8 @@ import java.util.ArrayList;
  * /** Tests the knight class.
  *
  * @author Robert Scheible (scheible)
+ * @author Jack
+ * @author Loran
  * @version Apr 16, 2013
  */
 public class KnightTest
