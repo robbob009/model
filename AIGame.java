@@ -14,9 +14,6 @@ import java.util.Random;
 public class AIGame
 {
 
-    // ----------------------------------------------------------
-
-    // ----------------------------------------------------------
     /**
      * Attempts to make a random move.
      *
@@ -49,7 +46,5 @@ public class AIGame
         output += moves.get(randMove).getNotation();
 
         return output;
-
     }
-
 }
