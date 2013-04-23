@@ -87,11 +87,19 @@ public class Move
             && this.getPiece().equals(move.getPiece());
     }
 
+    /**
+     * Gets the String representation of the move.
+     * @return the move notation.
+     */
     public String getNotation()
     {
         return notation;
     }
 
+    /**
+     * Sets the move notation.
+     * @param notation the notation of the move.
+     */
     public void setNotation(String notation)
     {
         this.notation = notation;
