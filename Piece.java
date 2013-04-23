@@ -15,15 +15,11 @@ public class Piece
 {
     // ~ Fields ................................................................
 
-    private boolean               isWhite;
-    private boolean               isActive;
-    private ArrayList<Move>       legalMoves;
-
-    /**
-     * The location needs to be used in the subclasses
-     */
-    protected Location            local;
-    private int                   inColorArray;
+    private boolean            isWhite;
+    private boolean            isActive;
+    private ArrayList<Move>    legalMoves;
+    protected Location         local;
+    private int                inColorArray;
 
     /**
      * legalVectors will be overwritten by every chess piece upon construction.
@@ -115,9 +111,8 @@ public class Piece
 
 
     /**
-     * This would return a char, except that if the class is a pawn it must
-     * return ""
-     *
+     * This would return a char, except that if the class is a pawn it
+     * must return ""
      * @return the letter representing the piece in algebraic notation.
      */
     public String getLetter()
@@ -144,7 +139,6 @@ public class Piece
         }
         return "";
     }
-
 
     /**
      * Prints out the piece to a string
@@ -176,15 +170,6 @@ public class Piece
     public int getInColorArray()
     {
         return inColorArray;
-    }
-
-
-    public Piece clone()
-    {
-        return new Piece(
-            isWhite,
-            new Location(local.x(), local.y()),
-            inColorArray);
     }
 
 

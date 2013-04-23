@@ -102,20 +102,8 @@ public class Game
         Piece[] blackPieces,
         boolean turn)
     {
-        this.blackPieces = new Piece[16];
-        this.whitePieces = new Piece[16];
-
-        for (int ii = 0; ii < 16; ii++)
-        {
-            if (whitePieces[ii] != null)
-            {
-                this.whitePieces[ii] = whitePieces[ii].clone();
-            }
-            if (blackPieces[ii] != null)
-            {
-                this.blackPieces[ii] = blackPieces[ii].clone();
-            }
-        }
+        this.whitePieces = whitePieces.clone();
+        this.blackPieces = blackPieces.clone();
 
         this.board = new Piece[8][];
         for (int ii = 0; ii < 8; ii++)
@@ -131,21 +119,12 @@ public class Game
 
     // GETTER/SETTER METHODS -------------------------------------------------
 
-    /**
-     * Returns the available moves for the current player.
-     *
-     * @return the available moves
-     */
     public ArrayList<Move> getAvailableMoves()
     {
         return availableMoves;
     }
 
-    /**
-     * Returns whether or not the current player is in check
-     *
-     * @return is in check
-     */
+
     public boolean isInCheck()
     {
         return inCheck;
@@ -223,9 +202,6 @@ public class Game
 
     // UPDATE METHODS --------------------------------------------------------
 
-    /**
-     * Ends the current turn, updates game accordingly
-     */
     public void endTurn()
     {
         whiteTurn = !whiteTurn;
@@ -235,8 +211,11 @@ public class Game
         checkmate();
     }
 
+
     /**
-     * Updates the squares the current player can attack.
+     * Place a description of your method here.
+     *
+     * @return
      */
     public void updateAttackSquares()
     {
@@ -268,7 +247,12 @@ public class Game
 
 
     /**
-     * Updates the arraylist of all possible moves.
+     * Returns an array of arraylists, containing a list of pieces and a
+     * corresponding list of locations those pieces can move to.
+     *
+     * @param color
+     *            The color of the piece
+     * @return an array of arrayLists
      */
     public void updateAvailableMoves()
     {
@@ -422,7 +406,6 @@ public class Game
      * Checks if the current player is in check
      *
      * @param color
-     * @return if the player's in check
      */
     public boolean check(boolean color)
     {
