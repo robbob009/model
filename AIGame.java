@@ -28,26 +28,13 @@ public class AIGame
         String output = "";
         Random rand = new Random();
         ArrayList<Move> moves = game.getAvailableMoves();
-        boolean illegalMove = true;
         int randMove = 0;
 
-            randMove = rand.nextInt(moves.size());
-
-
-// Piece[][] chessBoard = game.getBoard();
-// for (int ii = 0; ii < 8; ii++)
-// {
-// for (int jj = 0; jj < 8; jj++)
-// {
-// if (chessBoard[ii][jj] != null)
-// {
-// System.out.println(chessBoard[ii][jj].toString());
-// }
-// }
-// }
-
+        randMove = rand.nextInt(moves.size());
 
         game.move(moves.get(randMove));
+        game.endTurn();
+        game.print();
 
         if (moves.get(randMove).getPiece().getIsWhite())
         {

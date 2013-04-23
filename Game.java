@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 
 // -------------------------------------------------------------------------
@@ -78,8 +79,9 @@ public class Game
         whiteTurn = true;
 
         updateAttackSquares();
-        updateLegalMoves();
+        updateAvailableMoves();
     }
+
 
     /**
      * Creates a new game with the given setup: allows for the checking of
@@ -115,8 +117,101 @@ public class Game
     }
 
 
-    // ~ Methods ...............................................................
-    // ----------------------------------------------------------
+    // GETTER/SETTER METHODS -------------------------------------------------
+
+    public ArrayList<Move> getAvailableMoves()
+    {
+        return availableMoves;
+    }
+
+
+    public boolean isInCheck()
+    {
+        return inCheck;
+    }
+
+
+    /**
+     * Returns the actual board
+     *
+     * @return board is the array holding all pieces
+     */
+    public Piece[][] getBoard()
+    {
+        return board;
+    }
+
+
+    /**
+     * Sets the chessboard to the given board.
+     *
+     * @param board
+     *            is a new chessboard.
+     */
+    public void setBoard(Piece[][] board)
+    {
+        this.board = board;
+    }
+
+
+    /**
+     * Returns the array of all white pieces
+     *
+     * @return the white pieces
+     */
+    public Piece[] getWhitePieces()
+    {
+        return whitePieces;
+    }
+
+
+    /**
+     * Sets the array of white pieces to whatever the new array is
+     *
+     * @param whitePieces
+     *            is the pieces to be on the board
+     */
+    public void setWhitePieces(Piece[] whitePieces)
+    {
+        this.whitePieces = whitePieces;
+    }
+
+
+    /**
+     * Returns the array of all black pieces
+     *
+     * @return the array of all black pieces
+     */
+    public Piece[] getBlackPieces()
+    {
+        return blackPieces;
+    }
+
+
+    /**
+     * Sets the blackPieces to the new array passed in
+     *
+     * @param blackPieces
+     *            the new array
+     */
+    public void setBlackPieces(Piece[] blackPieces)
+    {
+        this.blackPieces = blackPieces;
+    }
+
+
+    // UPDATE METHODS --------------------------------------------------------
+
+    public void endTurn()
+    {
+        whiteTurn = !whiteTurn;
+        updateAttackSquares();
+        updateAvailableMoves();
+        updateCheck();
+        checkmate();
+    }
+
+
     /**
      * Place a description of your method here.
      *
@@ -151,19 +246,6 @@ public class Game
     }
 
 
-    public ArrayList<Move> getAvailableMoves()
-    {
-        return availableMoves;
-    }
-
-
-    public boolean isInCheck()
-    {
-        return inCheck;
-    }
-
-
-    // ----------------------------------------------------------
     /**
      * Returns an array of arraylists, containing a list of pieces and a
      * corresponding list of locations those pieces can move to.
@@ -172,7 +254,7 @@ public class Game
      *            The color of the piece
      * @return an array of arrayLists
      */
-    public void updateLegalMoves()
+    public void updateAvailableMoves()
     {
         availableMoves = new ArrayList<Move>();
 
@@ -186,12 +268,11 @@ public class Game
     }
 
 
-    // ----------------------------------------------------------
     /**
      * Checks if the current player can make any moves. Otherwise, they have
      * been checkmated.
      */
-    public void checkMate()
+    public void checkmate()
     {
         if (availableMoves.isEmpty() && isInCheck())
         {
@@ -213,9 +294,7 @@ public class Game
         {
             System.out.println("Stalemate!");
             System.exit(0);
-
         }
-
     }
 
 
@@ -265,29 +344,6 @@ public class Game
 
 
     /**
-     * Returns the actual board
-     *
-     * @return board is the array holding all pieces
-     */
-    public Piece[][] getBoard()
-    {
-        return board;
-    }
-
-
-    /**
-     * Sets the chessboard to the given board.
-     *
-     * @param board
-     *            is a new chessboard.
-     */
-    public void setBoard(Piece[][] board)
-    {
-        this.board = board;
-    }
-
-
-    /**
      * Adds a piece to the board and the array of pieces
      *
      * @param piece
@@ -305,52 +361,6 @@ public class Game
         }
 
         board[piece.getLocal().x()][piece.getLocal().y()] = piece;
-    }
-
-
-    /**
-     * Returns the array of all white pieces
-     *
-     * @return the white pieces
-     */
-    public Piece[] getWhitePieces()
-    {
-        return whitePieces;
-    }
-
-
-    /**
-     * Sets the array of white pieces to whatever the new array is
-     *
-     * @param whitePieces
-     *            is the pieces to be on the board
-     */
-    public void setWhitePieces(Piece[] whitePieces)
-    {
-        this.whitePieces = whitePieces;
-    }
-
-
-    /**
-     * Returns the array of all black pieces
-     *
-     * @return the array of all black pieces
-     */
-    public Piece[] getBlackPieces()
-    {
-        return blackPieces;
-    }
-
-
-    /**
-     * Sets the blackPieces to the new array passed in
-     *
-     * @param blackPieces
-     *            the new array
-     */
-    public void setBlackPieces(Piece[] blackPieces)
-    {
-        this.blackPieces = blackPieces;
     }
 
 
@@ -478,7 +488,7 @@ public class Game
      */
     public void move(Move move)
     {
-        String notation = move.getPiece().getLetter();
+// String notation = move.getPiece().getLetter();
 
         board[move.getPiece().getLocal().x()][move.getPiece().getLocal().y()] =
             null;
@@ -488,30 +498,30 @@ public class Game
         // Taking a piece
         if (board[move.getLocal().x()][move.getLocal().y()] != null)
         {
-            if (notation.equals(""))
-            {
-                notation +=
-                    move.getPiece().getLocal().toString().substring(0, 1);
-            }
+// if (notation.equals(""))
+// {
+// notation +=
+// move.getPiece().getLocal().toString().substring(0, 1);
+// }
             if (board[move.getLocal().x()][move.getLocal().y()].getIsWhite())
             {
-                notation += "x";
+                // notation += "x";
                 whitePieces[board[move.getLocal().x()][move.getLocal().y()]
                     .getInColorArray()] = null;
             }
             else
             {
-                notation += "x";
+                // notation += "x";
                 blackPieces[board[move.getLocal().x()][move.getLocal().y()]
                     .getInColorArray()] = null;
             }
         }
-        notation += move.getLocal().toString();
+// notation += move.getLocal().toString();
 
         if ((move.getLocal().y() == 0 || move.getLocal().y() == 7)
             && move.getPiece().getClass() == Pawn.class)
         {
-            notation += "=";
+// notation += "=";
             switch (getPawnPromotion())
             {
 
@@ -521,7 +531,7 @@ public class Game
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
                             move.getPiece().getInColorArray());
-                    notation += "Q";
+                    // notation += "Q";
                     break;
                 case (1):
                     board[move.getLocal().x()][move.getLocal().y()] =
@@ -529,7 +539,7 @@ public class Game
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
                             move.getPiece().getInColorArray());
-                    notation += "R";
+                    // notation += "R";
                     break;
                 case (2):
                     board[move.getLocal().x()][move.getLocal().y()] =
@@ -537,7 +547,7 @@ public class Game
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
                             move.getPiece().getInColorArray());
-                    notation += "K";
+// notation += "K";
                     break;
                 case (3):
                     board[move.getLocal().x()][move.getLocal().y()] =
@@ -545,7 +555,7 @@ public class Game
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
                             move.getPiece().getInColorArray());
-                    notation += "B";
+                    // notation += "B";
                     break;
 
             }
@@ -558,16 +568,18 @@ public class Game
             board[move.getLocal().x()][move.getLocal().y()] = move.getPiece();
         }
 
-        whiteTurn = !whiteTurn;
+// whiteTurn = !whiteTurn;
+//
+// updateAttackSquares();
+// updateLegalMoves();
+// updateCheck();
 
-        updateCheck();
-
-        if (inCheck)
-        {
-            notation += "+";
-        }
-
-        move.setNotation(notation);
+// if (inCheck)
+// {
+// notation += "+";
+// }
+//
+// move.setNotation(notation);
     }
 
 
@@ -580,35 +592,17 @@ public class Game
      */
     public int getPawnPromotion()
     {
-        // TODO: get user input
-        return 0;
-    }
+        System.out
+            .println("Enter 0 for queen, 1 for rook, 2 for knight, 3 for bishop.");
+        Scanner scan = new Scanner(System.in);
 
-
-    /**
-     * Place a description of your method here.
-     *
-     * @param piece
-     * @param kingX
-     * @param kingY
-     * @param tempBoard
-     * @return the piece if it can
-     */
-    public boolean canThisPieceHitXandY(
-        Piece piece,
-        int kingX,
-        int kingY,
-        Piece[][] tempBoard)
-    {
-        for (Move move : piece.getPossibleMoves(tempBoard))
+        int next = scan.nextInt();
+        while (next < 0 || next > 3)
         {
-            if (move.getLocal().x() == kingX && move.getLocal().y() == kingY)
-            {
-                return true;
-            }
+            System.out.println("Invalid number.");
+            next = scan.nextInt();
         }
-
-        return false;
+        return next;
     }
 
 
