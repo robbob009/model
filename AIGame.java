@@ -9,6 +9,7 @@ import java.util.Random;
  *
  * @author Robert Scheible (scheible)
  * @version Apr 11, 2013
+ * @author Loran S
  */
 public class AIGame
 {
