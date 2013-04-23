@@ -117,10 +117,16 @@ public class Game
             }
         }
 
-        this.board = new Piece[8][];
+        this.board = new Piece[8][8];
         for (int ii = 0; ii < 8; ii++)
         {
-            this.board[ii] = board[ii].clone();
+            for (int jj = 0; jj < 8; jj++)
+            {
+                if (board[ii][jj] != null)
+                {
+                    this.board[ii][jj] = board[ii][jj].clone();
+                }
+            }
         }
 
         this.whiteTurn = turn;
@@ -464,7 +470,47 @@ public class Game
      */
     public boolean isLegalMove(Move move)
     {
+//        Piece[][] copyBoard = new Piece[8][8];
+//
+//        for (int ii = 0; ii < 8; ii++)
+//        {
+//            for (int jj = 0; jj < 8; jj++)
+//            {
+//                if (board[ii][jj] != null)
+//                {
+//                    copyBoard[ii][jj] = board[ii][jj].clone();
+//                }
+//            }
+//        }
+
+
         Piece piece = move.getPiece();
+//        Piece piece;
+//        if (move.getPiece().getClass() == Pawn.class)
+//        {
+//            piece = (Pawn)move.getPiece().clone();
+//        }
+//        else if (move.getPiece().getClass() == Rook.class)
+//        {
+//            piece = (Rook)move.getPiece().clone();
+//        }
+//        else if (move.getPiece().getClass() == Knight.class)
+//        {
+//            piece = (Knight)move.getPiece().clone();
+//        }
+//        else if (move.getPiece().getClass() == Bishop.class)
+//        {
+//            piece = (Bishop)move.getPiece().clone();
+//        }
+//        else if (move.getPiece().getClass() == Queen.class)
+//        {
+//            piece = (Queen)move.getPiece().clone();
+//        }
+//        else //(move.getPiece().getClass() == King.class)
+//        {
+//            piece = (King)move.getPiece().clone();
+//        }
+
         if (piece.getIsWhite() != getWhiteTurn())
         {
             return false;
@@ -491,7 +537,9 @@ public class Game
             new Game(board, blackPieces, whitePieces, whiteTurn);
 
         potentialGame.move(move);
-
+        potentialGame.updateAttackSquares();
+        potentialGame.updateCheck();
+//        board = copyBoard;
         return !potentialGame.check(whiteTurn);
 
     }
