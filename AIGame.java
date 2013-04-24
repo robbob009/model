@@ -32,7 +32,7 @@ public class AIGame
 
         game.move(moves.get(randMove));
         game.endTurn();
-        game.print();
+        //game.print();
 
         if (moves.get(randMove).getPiece().getIsWhite())
         {

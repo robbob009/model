@@ -285,6 +285,7 @@ public class Game
             if (isLegalMove(move))
             {
                 availableMoves.add(move);
+//                System.out.println(move.getPiece().toString());
             }
         }
     }
@@ -470,18 +471,18 @@ public class Game
      */
     public boolean isLegalMove(Move move)
     {
-//        Piece[][] copyBoard = new Piece[8][8];
-//
-//        for (int ii = 0; ii < 8; ii++)
-//        {
-//            for (int jj = 0; jj < 8; jj++)
-//            {
-//                if (board[ii][jj] != null)
-//                {
-//                    copyBoard[ii][jj] = board[ii][jj].clone();
-//                }
-//            }
-//        }
+        Piece[][] copyBoard = new Piece[8][8];
+
+        for (int ii = 0; ii < 8; ii++)
+        {
+            for (int jj = 0; jj < 8; jj++)
+            {
+                if (board[ii][jj] != null)
+                {
+                    copyBoard[ii][jj] = board[ii][jj].clone();
+                }
+            }
+        }
 
 
         Piece piece = move.getPiece();
@@ -539,7 +540,7 @@ public class Game
         potentialGame.move(move);
         potentialGame.updateAttackSquares();
         potentialGame.updateCheck();
-//        board = copyBoard;
+        board = copyBoard;
         return !potentialGame.check(whiteTurn);
 
     }
@@ -554,11 +555,11 @@ public class Game
     public void move(Move move)
     {
 // String notation = move.getPiece().getLetter();
-
-        board[move.getPiece().getLocal().x()][move.getPiece().getLocal().y()] =
+        Piece piece = move.getPiece().clone();
+        board[piece.getLocal().x()][piece.getLocal().y()] =
             null;
 
-        move.getPiece().setLocal(move.getLocal());
+        piece.setLocal(move.getLocal());
 
         // Taking a piece
         if (board[move.getLocal().x()][move.getLocal().y()] != null)
@@ -584,7 +585,7 @@ public class Game
 // notation += move.getLocal().toString();
 
         if ((move.getLocal().y() == 0 || move.getLocal().y() == 7)
-            && move.getPiece().getClass() == Pawn.class)
+            && piece.getClass() == Pawn.class)
         {
 // notation += "=";
             switch (getPawnPromotion())
@@ -630,7 +631,7 @@ public class Game
         }
         else
         {
-            board[move.getLocal().x()][move.getLocal().y()] = move.getPiece();
+            board[move.getLocal().x()][move.getLocal().y()] = piece;
         }
 
 // whiteTurn = !whiteTurn;

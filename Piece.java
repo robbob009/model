@@ -181,10 +181,48 @@ public class Piece
 
     public Piece clone()
     {
-        return new Piece(
-            isWhite,
-            new Location(local.x(), local.y()),
-            inColorArray);
+        if (getClass() == Pawn.class)
+        {
+            return new Pawn(
+                isWhite,
+                new Location(local.x(), local.y()),
+                inColorArray);
+        }
+        else if (getClass() == Rook.class)
+        {
+            return new Rook(
+                isWhite,
+                new Location(local.x(), local.y()),
+                inColorArray);
+        }
+        else if (getClass() == Knight.class)
+        {
+            return new Knight(
+                isWhite,
+                new Location(local.x(), local.y()),
+                inColorArray);
+        }
+        else if (getClass() == Bishop.class)
+        {
+            return new Bishop(
+                isWhite,
+                new Location(local.x(), local.y()),
+                inColorArray);
+        }
+        else if (getClass() == Queen.class)
+        {
+            return new Queen(
+                isWhite,
+                new Location(local.x(), local.y()),
+                inColorArray);
+        }
+        else //(move.getPiece().getClass() == King.class)
+        {
+            return new King(
+                isWhite,
+                new Location(local.x(), local.y()),
+                inColorArray);
+        }
     }
 
 
