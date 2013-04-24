@@ -32,7 +32,6 @@ public class AIGame
 
         game.move(moves.get(randMove));
         game.endTurn();
-        //game.print();
 
         if (moves.get(randMove).getPiece().getIsWhite())
         {
@@ -42,6 +41,17 @@ public class AIGame
         {
             output += "Black: ";
         }
+
+//        if (moves.get(randMove).getPiece().getIsWhite())
+//        {
+//            System.out.println(game.getWhitePieces()[moves.get(randMove)
+//                .getPiece().getInColorArray()].toString());
+//        }
+//        else
+//        {
+//            System.out.println(game.getBlackPieces()[moves.get(randMove)
+//                .getPiece().getInColorArray()].toString());
+//        }
 
         output += moves.get(randMove).getNotation();
 

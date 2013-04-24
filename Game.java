@@ -147,6 +147,7 @@ public class Game
         return availableMoves;
     }
 
+
     /**
      * Returns whether or not the current player is in check
      *
@@ -241,6 +242,7 @@ public class Game
         checkmate();
     }
 
+
     /**
      * Updates the squares the current player can attack.
      */
@@ -285,7 +287,7 @@ public class Game
             if (isLegalMove(move))
             {
                 availableMoves.add(move);
-//                System.out.println(move.getPiece().toString());
+// System.out.println(move.getPiece().toString());
             }
         }
     }
@@ -421,6 +423,7 @@ public class Game
      */
     public void updateCheck()
     {
+        //TODO: This doesn't work properly
         inCheck = check(whiteTurn);
     }
 
@@ -484,33 +487,32 @@ public class Game
             }
         }
 
-
         Piece piece = move.getPiece();
-//        Piece piece;
-//        if (move.getPiece().getClass() == Pawn.class)
-//        {
-//            piece = (Pawn)move.getPiece().clone();
-//        }
-//        else if (move.getPiece().getClass() == Rook.class)
-//        {
-//            piece = (Rook)move.getPiece().clone();
-//        }
-//        else if (move.getPiece().getClass() == Knight.class)
-//        {
-//            piece = (Knight)move.getPiece().clone();
-//        }
-//        else if (move.getPiece().getClass() == Bishop.class)
-//        {
-//            piece = (Bishop)move.getPiece().clone();
-//        }
-//        else if (move.getPiece().getClass() == Queen.class)
-//        {
-//            piece = (Queen)move.getPiece().clone();
-//        }
-//        else //(move.getPiece().getClass() == King.class)
-//        {
-//            piece = (King)move.getPiece().clone();
-//        }
+// Piece piece;
+// if (move.getPiece().getClass() == Pawn.class)
+// {
+// piece = (Pawn)move.getPiece().clone();
+// }
+// else if (move.getPiece().getClass() == Rook.class)
+// {
+// piece = (Rook)move.getPiece().clone();
+// }
+// else if (move.getPiece().getClass() == Knight.class)
+// {
+// piece = (Knight)move.getPiece().clone();
+// }
+// else if (move.getPiece().getClass() == Bishop.class)
+// {
+// piece = (Bishop)move.getPiece().clone();
+// }
+// else if (move.getPiece().getClass() == Queen.class)
+// {
+// piece = (Queen)move.getPiece().clone();
+// }
+// else //(move.getPiece().getClass() == King.class)
+// {
+// piece = (King)move.getPiece().clone();
+// }
 
         if (piece.getIsWhite() != getWhiteTurn())
         {
@@ -534,6 +536,9 @@ public class Game
         }
 
         // checks if moving the piece puts their own king in check
+
+        //TODO: For whatever reason, it ends up checking if the move
+        //puts the other king in check, and can't do that move.
         Game potentialGame =
             new Game(board, blackPieces, whitePieces, whiteTurn);
 
@@ -554,12 +559,23 @@ public class Game
      */
     public void move(Move move)
     {
+        //TODO: The pawns occasionally move backwards
+
+
 // String notation = move.getPiece().getLetter();
         Piece piece = move.getPiece().clone();
-        board[piece.getLocal().x()][piece.getLocal().y()] =
-            null;
+        board[piece.getLocal().x()][piece.getLocal().y()] = null;
 
         piece.setLocal(move.getLocal());
+
+        if (piece.getIsWhite())
+        {
+            whitePieces[piece.getInColorArray()] = piece;
+        }
+        else
+        {
+            blackPieces[piece.getInColorArray()] = piece;
+        }
 
         // Taking a piece
         if (board[move.getLocal().x()][move.getLocal().y()] != null)
@@ -590,9 +606,8 @@ public class Game
 // notation += "=";
             switch (getPawnPromotion())
             {
-
                 case (0):
-                    board[move.getLocal().x()][move.getLocal().y()] =
+                    piece =
                         new Queen(
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
@@ -600,7 +615,7 @@ public class Game
                     // notation += "Q";
                     break;
                 case (1):
-                    board[move.getLocal().x()][move.getLocal().y()] =
+                    piece =
                         new Rook(
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
@@ -608,7 +623,7 @@ public class Game
                     // notation += "R";
                     break;
                 case (2):
-                    board[move.getLocal().x()][move.getLocal().y()] =
+                    piece =
                         new Knight(
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
@@ -616,7 +631,7 @@ public class Game
 // notation += "K";
                     break;
                 case (3):
-                    board[move.getLocal().x()][move.getLocal().y()] =
+                    piece =
                         new Bishop(
                             move.getPiece().getIsWhite(),
                             move.getLocal(),
@@ -625,13 +640,16 @@ public class Game
                     break;
 
             }
-            board[move.getLocal().x()][move.getLocal().y()] =
-                new Queen(move.getPiece().getIsWhite(), move.getLocal(), move
-                    .getPiece().getInColorArray());
+        }
+
+        board[move.getLocal().x()][move.getLocal().y()] = piece;
+        if (piece.getIsWhite())
+        {
+            whitePieces[piece.getInColorArray()] = piece;
         }
         else
         {
-            board[move.getLocal().x()][move.getLocal().y()] = piece;
+            blackPieces[piece.getInColorArray()] = piece;
         }
 
 // whiteTurn = !whiteTurn;
