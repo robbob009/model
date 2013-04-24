@@ -39,6 +39,11 @@ public class Game
      */
     public Game()
     {
+        //TODO: Clean up this program
+
+        //TODO: Make a GUI
+
+
         // The Board is an 8x8 array of pieces, with board[x][y]
         // board[0][0] is equivalent to a8, board[0][7] is a1,
         // board[7][0] is h8, board[7][7] is h1
@@ -423,7 +428,6 @@ public class Game
      */
     public void updateCheck()
     {
-        //TODO: This doesn't work properly
         inCheck = check(whiteTurn);
     }
 
@@ -436,6 +440,8 @@ public class Game
      */
     public boolean check(boolean color)
     {
+        //TODO: Doesn't work as intended.  Must get attacking moves for
+        //Correct player
         Location kingLocal;
         if (color)
         {
@@ -474,45 +480,7 @@ public class Game
      */
     public boolean isLegalMove(Move move)
     {
-        Piece[][] copyBoard = new Piece[8][8];
-
-        for (int ii = 0; ii < 8; ii++)
-        {
-            for (int jj = 0; jj < 8; jj++)
-            {
-                if (board[ii][jj] != null)
-                {
-                    copyBoard[ii][jj] = board[ii][jj].clone();
-                }
-            }
-        }
-
         Piece piece = move.getPiece();
-// Piece piece;
-// if (move.getPiece().getClass() == Pawn.class)
-// {
-// piece = (Pawn)move.getPiece().clone();
-// }
-// else if (move.getPiece().getClass() == Rook.class)
-// {
-// piece = (Rook)move.getPiece().clone();
-// }
-// else if (move.getPiece().getClass() == Knight.class)
-// {
-// piece = (Knight)move.getPiece().clone();
-// }
-// else if (move.getPiece().getClass() == Bishop.class)
-// {
-// piece = (Bishop)move.getPiece().clone();
-// }
-// else if (move.getPiece().getClass() == Queen.class)
-// {
-// piece = (Queen)move.getPiece().clone();
-// }
-// else //(move.getPiece().getClass() == King.class)
-// {
-// piece = (King)move.getPiece().clone();
-// }
 
         if (piece.getIsWhite() != getWhiteTurn())
         {
@@ -537,16 +505,14 @@ public class Game
 
         // checks if moving the piece puts their own king in check
 
-        //TODO: For whatever reason, it ends up checking if the move
-        //puts the other king in check, and can't do that move.
         Game potentialGame =
             new Game(board, blackPieces, whitePieces, whiteTurn);
 
         potentialGame.move(move);
+        potentialGame.setWhiteTurn(!whiteTurn);
         potentialGame.updateAttackSquares();
         potentialGame.updateCheck();
-        board = copyBoard;
-        return !potentialGame.check(whiteTurn);
+        return !potentialGame.isInCheck();
 
     }
 
@@ -559,7 +525,7 @@ public class Game
      */
     public void move(Move move)
     {
-        //TODO: The pawns occasionally move backwards
+        //TODO: Fix the notation
 
 
 // String notation = move.getPiece().getLetter();

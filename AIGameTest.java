@@ -24,7 +24,8 @@ public class AIGameTest extends TestCase
         for (int ii = 0; ii < 400; ii++)
         {
             System.out.println(sample.run(game));
+            game.print();
         }
-        game.print();
+
     }
 }

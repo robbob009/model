@@ -58,6 +58,7 @@ public class GameTest
         game.add(new King(false, new Location(4, 4), 4));
         game.add(new Rook(false, new Location(2, 4), 0));
         game.setWhiteTurn(false);
+        game.print();
         game.endTurn();
         //game.print();
         assertTrue(game.isInCheck());

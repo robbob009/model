@@ -57,4 +57,13 @@ public class AIGame
 
         return output;
     }
+
+
+    //TODO: Add position analysis
+
+    //TODO: Add stack of games
+
+    //TODO: Add Openings
+
+    //TODO: Add Endings
 }
