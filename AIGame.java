@@ -42,16 +42,16 @@ public class AIGame
             output += "Black: ";
         }
 
-//        if (moves.get(randMove).getPiece().getIsWhite())
-//        {
-//            System.out.println(game.getWhitePieces()[moves.get(randMove)
-//                .getPiece().getInColorArray()].toString());
-//        }
-//        else
-//        {
-//            System.out.println(game.getBlackPieces()[moves.get(randMove)
-//                .getPiece().getInColorArray()].toString());
-//        }
+// if (moves.get(randMove).getPiece().getIsWhite())
+// {
+// System.out.println(game.getWhitePieces()[moves.get(randMove)
+// .getPiece().getInColorArray()].toString());
+// }
+// else
+// {
+// System.out.println(game.getBlackPieces()[moves.get(randMove)
+// .getPiece().getInColorArray()].toString());
+// }
 
         output += moves.get(randMove).getNotation();
 
@@ -59,11 +59,44 @@ public class AIGame
     }
 
 
-    //TODO: Add position analysis
+    public String makeMove(String notation, Game game)
+    {
+        Move nextMove = null;
+        for (Move move : game.getAvailableMoves())
+        {
+            if (move.getNotation().equalsIgnoreCase(notation))
+            {
+                nextMove = move;
+                break;
+            }
+        }
 
-    //TODO: Add stack of games
+        if (nextMove == null)
+        {
+            return "Invalid move";
+        }
 
-    //TODO: Add Openings
+        game.move(nextMove);
+        game.endTurn();
 
-    //TODO: Add Endings
+        String output = "";
+        if (nextMove.getPiece().getIsWhite())
+        {
+            output += "White: ";
+        }
+        else
+        {
+            output += "Black: ";
+        }
+        output += nextMove.getNotation();
+        return output;
+    }
+
+    // TODO: Add position analysis
+
+    // TODO: Add stack of games
+
+    // TODO: Add Openings
+
+    // TODO: Add Endings
 }
