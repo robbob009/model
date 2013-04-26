@@ -25,10 +25,11 @@ public class AIGameTest
         Scanner scan = new Scanner(System.in);
         for (int ii = 0; ii < 400; ii++)
         {
+            System.out.println(game.getAttackingMoves());
+            System.out.println(game.getAvailableMoves());
             String input = scan.nextLine();
             System.out.println(sample.makeMove(input, game));
             game.print();
         }
-
     }
 }

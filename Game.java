@@ -164,19 +164,32 @@ public class Game
 
 
     /**
-     * Returns whether or not the current player is in check
+     * Returns the attacking squares for the current player.
      *
-     * @return is in check
+     * @return the available moves
      */
-    public boolean isInCheck()
+    public ArrayList<Move> getAttackingMoves()
     {
         if (whiteTurn)
         {
-            return whiteInCheck;
+            return whiteAttackingMoves;
         }
-        return blackInCheck;
+        return blackAttackingMoves;
     }
 
+// /**
+// * Returns whether or not the current player is in check
+// *
+// * @return is in check
+// */
+// public boolean isInCheck()
+// {
+// if (whiteTurn)
+// {
+// return whiteInCheck;
+// }
+// return blackInCheck;
+// }
 
     /**
      * Returns the actual board
@@ -186,6 +199,42 @@ public class Game
     public Piece[][] getBoard()
     {
         return board;
+    }
+
+
+    public ArrayList<Move> getWhiteAttackingMoves()
+    {
+        return whiteAttackingMoves;
+    }
+
+
+    public ArrayList<Move> getBlackAttackingMoves()
+    {
+        return blackAttackingMoves;
+    }
+
+
+    public ArrayList<Move> getWhiteAvailableMoves()
+    {
+        return whiteAvailableMoves;
+    }
+
+
+    public ArrayList<Move> getBlackAvailableMoves()
+    {
+        return blackAvailableMoves;
+    }
+
+
+    public boolean isWhiteInCheck()
+    {
+        return whiteInCheck;
+    }
+
+
+    public boolean isBlackInCheck()
+    {
+        return blackInCheck;
     }
 
 
@@ -329,9 +378,8 @@ public class Game
     {
         // TODO: This isn't working properly. For whatever reason, I put in the
 // four move checkmate, and the black queen still had moves available.
-        if ((getWhiteTurn() && whiteAvailableMoves.isEmpty())
-            || (!getWhiteTurn() && blackAvailableMoves.isEmpty())
-            && isInCheck())
+        if ((getWhiteTurn() && whiteAvailableMoves.isEmpty() && isWhiteInCheck())
+            || (!getWhiteTurn() && blackAvailableMoves.isEmpty() && isBlackInCheck()))
         {
             String output = "";
             if (getWhiteTurn())
@@ -529,10 +577,28 @@ public class Game
             new Game(board, blackPieces, whitePieces, whiteTurn);
 
         potentialGame.move(move);
-        potentialGame.setWhiteTurn(!whiteTurn);
         potentialGame.updateAttackSquares();
         potentialGame.updateCheck();
-        return !potentialGame.isInCheck();
+
+        if (potentialGame.isBlackInCheck())
+        {
+            System.out.println("black in check");
+        }
+
+        if (potentialGame.isWhiteInCheck())
+        {
+            System.out.println("White in check");
+        }
+
+
+        if (getWhiteTurn())
+        {
+            return !potentialGame.isWhiteInCheck();
+        }
+        else
+        {
+            return !potentialGame.isBlackInCheck();
+        }
     }
 
 
