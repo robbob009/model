@@ -411,8 +411,6 @@ public class Game
      */
     public void checkmate()
     {
-        // TODO: This isn't working properly. For whatever reason, I put in the
-// four move checkmate, and the black queen still had moves available.
         if ((getWhiteTurn() && whiteAvailableMoves.isEmpty() && isWhiteInCheck())
             || (!getWhiteTurn() && blackAvailableMoves.isEmpty() && isBlackInCheck()))
         {
@@ -546,11 +544,6 @@ public class Game
      */
     public void updateCheck()
     {
-        // TODO: Doesn't work as intended. Must get attacking moves for
-        // Correct player
-
-        // TODO: Figure out why/how null pointer exception is happening.
-        // Happens when king put in check.
         whiteInCheck = false;
         blackInCheck = false;
 
@@ -560,6 +553,7 @@ public class Game
             if (move.getLocal().equals(whiteKingLocal))
             {
                 whiteInCheck = true;
+                break;
             }
         }
 
@@ -569,6 +563,7 @@ public class Game
             if (move.getLocal().equals(blackKingLocal))
             {
                 blackInCheck = true;
+                break;
             }
         }
     }
@@ -609,7 +604,7 @@ public class Game
         // checks if moving the piece puts their own king in check
 
         Game potentialGame =
-            new Game(board, blackPieces, whitePieces, whiteTurn);
+            new Game(board, whitePieces, blackPieces, whiteTurn);
 
         potentialGame.move(move);
         potentialGame.updateAttackSquares();
@@ -645,7 +640,6 @@ public class Game
      */
     public void move(Move move)
     {
-        //TODO: Pawn move not updating internal location
         String notation = move.getPiece().getLetter();
         Piece piece = move.getPiece().clone();
         board[piece.getLocal().x()][piece.getLocal().y()] = null;
