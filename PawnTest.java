@@ -53,9 +53,8 @@ public class PawnTest
 
         ArrayList<Move> check = makeM[8].getPossibleMoves(game.getBoard());
 
+        game.print();
         assertEquals(1, check.size());
-        //saying there are no more possible moves after moving only once
-
     }
 
 

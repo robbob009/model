@@ -82,9 +82,9 @@ public class Game
         for (int ii = 0; ii < 8; ii++)
         {
             blackPieces[ii + 8] =
-                board[ii][1] = new Pawn(false, new Location(ii, 1), ii + 7);
+                board[ii][1] = new Pawn(false, new Location(ii, 1), ii + 8);
             whitePieces[ii + 8] =
-                board[ii][6] = new Pawn(true, new Location(ii, 6), ii + 7);
+                board[ii][6] = new Pawn(true, new Location(ii, 6), ii + 8);
         }
 
         whiteTurn = true;
@@ -645,6 +645,7 @@ public class Game
      */
     public void move(Move move)
     {
+        //TODO: Pawn move not updating internal location
         String notation = move.getPiece().getLetter();
         Piece piece = move.getPiece().clone();
         board[piece.getLocal().x()][piece.getLocal().y()] = null;
