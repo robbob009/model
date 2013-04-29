@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * /** Tests the knight class.
  *
  * @author Robert Scheible (scheible)
- * @author Jack
+ * @author Jack Cobb (jack3)
  * @author Loran
  * @version Apr 16, 2013
  */
@@ -18,7 +18,8 @@ public class KnightTest
     /**
      * The game on which the tests take place.
      */
-    Game game;
+    private Game game;
+    private Piece[] makeM;
 
 
     /**
@@ -27,7 +28,36 @@ public class KnightTest
     public void setUp()
     {
         game = new Game();
+        makeM = game.getBlackPieces();
     }
+
+    /**
+     * test for finding valid moves at the start
+     */
+    public void testFindMove()
+    {
+
+        ArrayList<Move> check = makeM[1].getPossibleMoves(game.getBoard());
+
+        assertEquals(2, check.size());
+    }
+
+    /**
+     * test for finding valid moves after a pawn has been moved to open up
+     * the board a little bit more
+     *
+     */
+    public void testFindMoreMoves()
+    {
+        Move move1 = new Move(makeM[11], new Location(3, 2));
+        game.move(move1);
+
+        ArrayList<Move> check = makeM[1].getPossibleMoves(game.getBoard());
+
+        assertEquals(3, check.size());
+
+    }
+
 
     /**
      * Tests the knight moving.

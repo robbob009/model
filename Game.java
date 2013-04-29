@@ -202,36 +202,71 @@ public class Game
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * This list returns an arraylist of all possible white moves that would
+     * take a black piece or put a piece(ie king) in danger
+     * @return is the arraylist of attacking moves
+     */
     public ArrayList<Move> getWhiteAttackingMoves()
     {
         return whiteAttackingMoves;
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * This method returns an arraylist of all possible black moves that would
+     * take a white piece or put a piece(ie king) in danger
+     * @return is the arraylist of all attacking moves
+     */
     public ArrayList<Move> getBlackAttackingMoves()
     {
         return blackAttackingMoves;
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * This method gets and arraylist of all the available moves to the white
+     * pieces on the board
+     * @return is the arraylist of the available moves
+     */
     public ArrayList<Move> getWhiteAvailableMoves()
     {
         return whiteAvailableMoves;
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * This method returns an arraylist of all the available moves to the black
+     * pieces remaining on the board
+     * @return is the arraylist of the available moves to black pieces
+     */
     public ArrayList<Move> getBlackAvailableMoves()
     {
         return blackAvailableMoves;
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * This method checks if the white king is in check, and returns a boolean
+     * @return is the boolean answer if the king is in check
+     */
     public boolean isWhiteInCheck()
     {
         return whiteInCheck;
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * THis method checks if the black king is in check, and returns a boolean
+     * depending on whether the king is in check or not
+     * @return is the boolean answer if the king is in check
+     */
     public boolean isBlackInCheck()
     {
         return blackInCheck;
