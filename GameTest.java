@@ -9,6 +9,8 @@ import java.util.ArrayList;
  * Tests the game class
  *
  * @author Robert Scheible (scheible)
+ * @author Jack Cobb
+ * @author Loran Steingberger
  * @version Apr 12, 2013
  */
 public class GameTest

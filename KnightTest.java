@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author Robert Scheible (scheible)
  * @author Jack Cobb (jack3)
- * @author Loran
+ * @author Loran Steinberger
  * @version Apr 16, 2013
  */
 public class KnightTest

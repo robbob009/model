@@ -6,6 +6,8 @@ package model;
  * piece making it.
  *
  * @author Robert Scheible (scheible)
+ * @author Jack Cobb
+ * @author Loran Steinberger
  * @version Apr 16, 2013
  */
 public class Move

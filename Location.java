@@ -5,6 +5,8 @@ package model;
  * /** This is a location.
  *
  * @author Robert Scheible (scheible)
+ * @author Jack Cobb
+ * @author Loran Steinberger
  * @version Feb 20, 2013
  */
 public class Location
