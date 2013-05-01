@@ -36,17 +36,17 @@ public class GameTest
      */
     public void testCheckMate()
     {
-        AIGame sample = new AIGame();
-        System.out.println(sample.makeMove("e4", game));
-        System.out.println(sample.makeMove("e5", game));
-        System.out.println(sample.makeMove("bc4", game));
-        System.out.println(sample.makeMove("a6", game));
-        System.out.println(sample.makeMove("qh5", game));
-        System.out.println(sample.makeMove("a5", game));
-        System.out.println(game.getBlackAvailableMoves());
-        System.out.println(sample.makeMove("qf7", game));
-        System.out.println(game.getBlackAvailableMoves());
-        game.print();
+//        AIGame sample = new AIGame();
+//        System.out.println(sample.makeMove("e4", game));
+//        System.out.println(sample.makeMove("e5", game));
+//        System.out.println(sample.makeMove("bc4", game));
+//        System.out.println(sample.makeMove("a6", game));
+//        System.out.println(sample.makeMove("qh5", game));
+//        System.out.println(sample.makeMove("a5", game));
+//        System.out.println(game.getBlackAvailableMoves());
+//        System.out.println(sample.makeMove("qf7", game));
+//        System.out.println(game.getBlackAvailableMoves());
+//        game.print();
 
     }
 

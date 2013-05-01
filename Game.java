@@ -37,6 +37,9 @@ public class Game
     private boolean         whiteInCheck;
     private boolean         blackInCheck;
     private boolean         whiteTurn;
+    private Move lastMove;
+
+    //TODO: add a stack of all moves made
 
 
     // ~ Constructor ...........................................................
@@ -331,6 +334,15 @@ public class Game
     }
 
 
+    public Move getLastMove()
+    {
+        if (whiteInCheck || blackInCheck)
+        {
+            lastMove.setNotation(lastMove.getNotation() + "+");
+        }
+        return lastMove;
+    }
+
     // UPDATE METHODS --------------------------------------------------------
 
     /**
@@ -610,17 +622,6 @@ public class Game
         potentialGame.updateAttackSquares();
         potentialGame.updateCheck();
 
-        if (potentialGame.isBlackInCheck())
-        {
-            System.out.println("black in check");
-        }
-
-        if (potentialGame.isWhiteInCheck())
-        {
-            System.out.println("White in check");
-        }
-
-
         if (getWhiteTurn())
         {
             return !potentialGame.isWhiteInCheck();
@@ -719,6 +720,8 @@ public class Game
                     break;
 
             }
+
+
         }
 
         board[move.getLocal().x()][move.getLocal().y()] = piece;
@@ -731,7 +734,7 @@ public class Game
             blackPieces[piece.getInColorArray()] = piece;
         }
 
-        // TODO: Fix notation so that it recognizes check
+        lastMove = move;
     }
 
 

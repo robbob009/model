@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,6 +14,100 @@ import java.util.Random;
  */
 public class AIGame
 {
+    private Game game;
+
+
+    public void playGame()
+    {
+        game = new Game();
+        while (true)
+        {
+            if (game.getWhiteTurn())
+            {
+                whiteAI();
+            }
+            else
+            {
+                Scanner scan = new Scanner(System.in);
+                String input = scan.nextLine();
+                makeMove(input);
+            }
+            System.out.println(game.getLastMove().toString());
+            game.print();
+        }
+    }
+
+
+    public void whiteAI()
+    {
+        ArrayList<Move> whiteMoves = game.getAvailableMoves();
+        ArrayList<Double> whiteScores = new ArrayList<Double>(whiteMoves.size());
+
+        for (int kk = 0; kk < whiteMoves.size(); kk++)
+        {
+            whiteScores.add(Double.POSITIVE_INFINITY);
+        }
+
+        int ii = 0;
+        for (Move whiteMove : whiteMoves)
+        {
+            Game whiteGame =
+                new Game(
+                    game.getBoard(),
+                    game.getWhitePieces(),
+                    game.getBlackPieces(),
+                    game.getWhiteTurn());
+
+            whiteGame.move(whiteMove);
+            whiteGame.endTurn();
+
+            ArrayList<Move> blackMoves = whiteGame.getAvailableMoves();
+            ArrayList<Double> blackScores = new ArrayList<Double>();
+
+            for (Move blackMove : blackMoves)
+            {
+                Game blackGame =
+                    new Game(
+                        whiteGame.getBoard(),
+                        whiteGame.getWhitePieces(),
+                        whiteGame.getBlackPieces(),
+                        whiteGame.getWhiteTurn());
+
+                blackGame.move(blackMove);
+                blackGame.endTurn();
+                blackScores.add(analyzePosition(blackGame));
+            }
+
+            for (Double blackScore : blackScores)
+            {
+                if (whiteScores.get(ii) > blackScore)
+                {
+                    whiteScores.set(ii, blackScore);
+                }
+            }
+            ii++;
+        }
+
+        double whiteScore = whiteScores.get(0);
+        int index = 0;
+
+        for (int jj = 1; jj < whiteScores.size(); jj++)
+        {
+            if (whiteScores.get(jj) > whiteScore)
+            {
+                // only comes up with one of
+                // all moves that has the same score,
+                // rather than random option
+                whiteScore = whiteScores.get(jj);
+
+                index = jj;
+            }
+        }
+
+        game.move(whiteMoves.get(index));
+        game.endTurn();
+    }
+
 
     /**
      * Attempts to make a random move.
@@ -21,14 +116,92 @@ public class AIGame
      *            the game in which the AI is playing
      * @return the move in chess notation
      */
-    public String run(Game game)
+    public String run()
     {
         String output = "";
         Random rand = new Random();
         ArrayList<Move> moves = game.getAvailableMoves();
-        int randMove = 0;
+        ArrayList<Game> potentialGames = new ArrayList<Game>();
 
-        randMove = rand.nextInt(moves.size());
+        double bestScore;
+        if (game.getWhiteTurn())
+        {
+            bestScore = Double.MIN_VALUE;
+        }
+        else
+        {
+            bestScore = Double.MAX_VALUE;
+        }
+
+        double[] score = new double[moves.size()];
+        int ii = 0;
+        for (Move move : moves)
+        {
+            Game potentialGame =
+                new Game(
+                    game.getBoard(),
+                    game.getWhitePieces(),
+                    game.getBlackPieces(),
+                    game.getWhiteTurn());
+
+            potentialGame.move(move);
+            potentialGame.endTurn();
+
+            potentialGames.add(potentialGame);
+        }
+
+        for (Game possible : potentialGames)
+        {
+            ArrayList<Move> opponentMoves = possible.getAvailableMoves();
+            ArrayList<Game> secondBoard = new ArrayList<Game>();
+
+            double worstScore;
+            if (possible.getWhiteTurn())
+            {
+                worstScore = Double.MIN_VALUE;
+            }
+            else
+            {
+                worstScore = Double.MAX_VALUE;
+            }
+
+            for (Move move : opponentMoves)
+            {
+                Game potentialGame =
+                    new Game(
+                        possible.getBoard(),
+                        possible.getWhitePieces(),
+                        possible.getBlackPieces(),
+                        possible.getWhiteTurn());
+
+                potentialGame.move(move);
+                potentialGame.endTurn();
+
+                potentialGames.add(potentialGame);
+            }
+
+        }
+// double analysisScore = analyzePosition(potentialGame);
+//
+// if (game.getWhiteTurn() && analysisScore > bestScore)
+// {
+//
+// bestScore = analysisScore;
+// potentialGames = new ArrayList<Game>();
+// potentialGames.add(potentialGame);
+// }
+// else if (!game.getWhiteTurn() && analysisScore < bestScore)
+// {
+// bestScore = analysisScore;
+// potentialGames = new ArrayList<Game>();
+// potentialGames.add(potentialGame);
+// }
+// else if (analysisScore == bestScore)
+// {
+// potentialGames.add(potentialGame);
+// }
+
+        int randMove = rand.nextInt(potentialGames.size());
 
         game.move(moves.get(randMove));
         game.endTurn();
@@ -53,13 +226,13 @@ public class AIGame
 // .getPiece().getInColorArray()].toString());
 // }
 
-        output += moves.get(randMove).getNotation();
+        output += game.getLastMove().getNotation();
 
         return output;
     }
 
 
-    public String makeMove(String notation, Game game)
+    public String makeMove(String notation)
     {
         Move nextMove = null;
         for (Move move : game.getAvailableMoves())
@@ -90,6 +263,78 @@ public class AIGame
         }
         output += nextMove.getNotation();
         return output;
+    }
+
+
+    /**
+     * Provides a numerical value for the position If the number is positive,
+     * white is ahead. If the number is negative, black is ahead. if the number
+     * is zero, the game is evenly matched.
+     *
+     * @param game
+     *            The game position being analyzed
+     */
+    public double analyzePosition(Game game)
+    {
+        double total = 0;
+
+        // Point value for having the piece
+        for (Piece piece : game.getWhitePieces())
+        {
+            if (piece != null)
+            {
+                total += getNumValue(piece);
+            }
+        }
+
+        for (Piece piece : game.getBlackPieces())
+        {
+            if (piece != null)
+            {
+                total -= getNumValue(piece);
+            }
+        }
+
+        // The move moves available, the better the position.
+        // TODO: Get a better number for this.
+        total +=
+            (game.getWhiteAttackingMoves().size() - game
+                .getBlackAttackingMoves().size()) * .1;
+
+        return total;
+    }
+
+
+    /**
+     * Gets the numerical value of the piece
+     *
+     * @param piece
+     * @return
+     */
+    public int getNumValue(Piece piece)
+    {
+        if (piece.getClass() == Pawn.class)
+        {
+            return 1;
+        }
+
+        if (piece.getClass() == Knight.class
+            || piece.getClass() == Bishop.class)
+        {
+            return 3;
+        }
+
+        if (piece.getClass() == Rook.class)
+        {
+            return 5;
+        }
+
+        if (piece.getClass() == Queen.class)
+        {
+            return 9;
+        }
+
+        return 0;
     }
 
     // TODO: Add position analysis

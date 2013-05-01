@@ -70,11 +70,6 @@ public class Knight extends Piece
         return possibleMoves;
     }
 
-    public void setLocal(Location local)
-    {
-        this.local = local;
-        super.setLocal(local);
-    }
 
 
 

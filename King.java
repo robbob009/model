@@ -85,10 +85,4 @@ public class King
         return legalMoves;
     }
 
-
-    public void setLocal(Location local)
-    {
-        this.local = local;
-        super.setLocal(local);
-    }
 }

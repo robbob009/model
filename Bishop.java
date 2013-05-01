@@ -39,5 +39,4 @@ public class Bishop extends Piece
 
     //~ Methods ...............................................................
 
-
 }
