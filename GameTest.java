@@ -52,6 +52,22 @@ public class GameTest
 
     }
 
+    /**
+     * Tests Castling
+     */
+    public void testCastle()
+    {
+        Piece[][] board = game.getBoard();
+        board[5][7] = null;
+        board[6][7] = null;
+        game.setBoard(board);
+        game.print();
+        game.updateAttackSquares();
+        game.updateAvailableMoves();
+        System.out.println(game.getAvailableMoves());
+    }
+
+
 
     /**
      * Tests the clear method

@@ -25,7 +25,7 @@ public class Game
     private Piece[]         blackPieces;
     private ArrayList<Move> whiteAttackingMoves; // A list of all possible
 // squares
-                                                 // the pieces can attack
+                                                  // the pieces can attack
 
     private ArrayList<Move> blackAttackingMoves;
 
@@ -33,14 +33,23 @@ public class Game
 
     private ArrayList<Move> blackAvailableMoves; // A list of all moves the
 // player
-                                                 // can actually make
+                                                  // can actually make
     private boolean         whiteInCheck;
     private boolean         blackInCheck;
     private boolean         whiteTurn;
-    private Move lastMove;
 
-    //TODO: add a stack of all moves made
+    private boolean         whiteKingSideCastle = true;
+    private boolean         whiteQueenSideCastle = true;
 
+    private boolean         blackKingSideCastle = true;
+    private boolean         blackQueenSideCastle = true;
+
+    private Move            lastMove;
+
+
+    // TODO: add a stack of all game positions
+
+    // TODO: add an array of all moves made
 
     // ~ Constructor ...........................................................
     // ----------------------------------------------------------
@@ -49,9 +58,7 @@ public class Game
      */
     public Game()
     {
-        // TODO: Clean up this program
-
-        // TODO: Make a GUI
+        // TODO: Add a move counter
 
         // The Board is an 8x8 array of pieces, with board[x][y]
         // board[0][0] is equivalent to a8, board[0][7] is a1,
@@ -180,6 +187,7 @@ public class Game
         return blackAttackingMoves;
     }
 
+
 // /**
 // * Returns whether or not the current player is in check
 // *
@@ -209,6 +217,7 @@ public class Game
     /**
      * This list returns an arraylist of all possible white moves that would
      * take a black piece or put a piece(ie king) in danger
+     *
      * @return is the arraylist of attacking moves
      */
     public ArrayList<Move> getWhiteAttackingMoves()
@@ -221,6 +230,7 @@ public class Game
     /**
      * This method returns an arraylist of all possible black moves that would
      * take a white piece or put a piece(ie king) in danger
+     *
      * @return is the arraylist of all attacking moves
      */
     public ArrayList<Move> getBlackAttackingMoves()
@@ -233,6 +243,7 @@ public class Game
     /**
      * This method gets and arraylist of all the available moves to the white
      * pieces on the board
+     *
      * @return is the arraylist of the available moves
      */
     public ArrayList<Move> getWhiteAvailableMoves()
@@ -245,6 +256,7 @@ public class Game
     /**
      * This method returns an arraylist of all the available moves to the black
      * pieces remaining on the board
+     *
      * @return is the arraylist of the available moves to black pieces
      */
     public ArrayList<Move> getBlackAvailableMoves()
@@ -256,6 +268,7 @@ public class Game
     // ----------------------------------------------------------
     /**
      * This method checks if the white king is in check, and returns a boolean
+     *
      * @return is the boolean answer if the king is in check
      */
     public boolean isWhiteInCheck()
@@ -268,6 +281,7 @@ public class Game
     /**
      * THis method checks if the black king is in check, and returns a boolean
      * depending on whether the king is in check or not
+     *
      * @return is the boolean answer if the king is in check
      */
     public boolean isBlackInCheck()
@@ -343,6 +357,7 @@ public class Game
         return lastMove;
     }
 
+
     // UPDATE METHODS --------------------------------------------------------
 
     /**
@@ -401,6 +416,53 @@ public class Game
                     whiteAvailableMoves.add(move);
                 }
             }
+
+            // Castling
+
+            if (whiteKingSideCastle && !whiteInCheck && board[5][7] == null
+                && board[6][7] == null)
+            {
+                boolean canCastle = true;
+                for (Move move : blackAttackingMoves)
+                {
+                    if (move.getLocal().equals(new Location(5, 7))
+                        || move.getLocal().equals(new Location(6, 7)))
+                    {
+                        canCastle = false;
+                    }
+                }
+
+                if (canCastle)
+                {
+                    whiteAvailableMoves.add(new Move(
+                        whitePieces[4],
+                        new Location(6, 7),
+                        "O-O"));
+                }
+            }
+
+            if (whiteQueenSideCastle && !whiteInCheck && board[2][7] == null
+                && board[3][7] == null && board[4][7] == null)
+            {
+                boolean canCastle = true;
+                for (Move move : blackAttackingMoves)
+                {
+                    if (move.getLocal().equals(new Location(3, 7))
+                        || move.getLocal().equals(new Location(4, 7)))
+                    {
+                        canCastle = false;
+                    }
+                }
+
+                if (canCastle)
+                {
+                    whiteAvailableMoves.add(new Move(
+                        whitePieces[4],
+                        new Location(3, 7),
+                        "O-O-O"));
+                }
+            }
+
         }
         else
         {
@@ -410,6 +472,50 @@ public class Game
                 if (isLegalMove(move))
                 {
                     blackAvailableMoves.add(move);
+                }
+            }
+
+            if (blackKingSideCastle && !blackInCheck && board[5][0] == null
+                && board[6][0] == null)
+            {
+                boolean canCastle = true;
+                for (Move move : whiteAttackingMoves)
+                {
+                    if (move.getLocal().equals(new Location(5, 0))
+                        || move.getLocal().equals(new Location(6, 0)))
+                    {
+                        canCastle = false;
+                    }
+                }
+
+                if (canCastle)
+                {
+                    blackAvailableMoves.add(new Move(
+                        blackPieces[4],
+                        new Location(6, 0),
+                        "O-O"));
+                }
+            }
+
+            if (blackQueenSideCastle && !blackInCheck && board[2][0] == null
+                && board[3][0] == null && board[4][0] == null)
+            {
+                boolean canCastle = true;
+                for (Move move : whiteAttackingMoves)
+                {
+                    if (move.getLocal().equals(new Location(3, 0))
+                        || move.getLocal().equals(new Location(4, 0)))
+                    {
+                        canCastle = false;
+                    }
+                }
+
+                if (canCastle)
+                {
+                    blackAvailableMoves.add(new Move(
+                        blackPieces[4],
+                        new Location(3, 0),
+                        "O-O-O"));
                 }
             }
         }
@@ -643,6 +749,69 @@ public class Game
     {
         String notation = move.getPiece().getLetter();
         Piece piece = move.getPiece().clone();
+
+        if (piece.getClass() == Rook.class || piece.getClass() == King.class)
+        {
+            if (piece.equals(whitePieces[0]))
+            {
+                whiteQueenSideCastle = false;
+            }
+            else if (piece.equals(whitePieces[7]))
+            {
+                whiteKingSideCastle = false;
+            }
+            else if (piece.equals(whitePieces[4]))
+            {
+                whiteKingSideCastle = false;
+                whiteQueenSideCastle = false;
+            }
+            else if (piece.equals(blackPieces[0]))
+            {
+                blackQueenSideCastle = false;
+            }
+            else if (piece.equals(blackPieces[7]))
+            {
+                blackKingSideCastle = false;
+            }
+            else
+            {
+                // King moved
+                blackKingSideCastle = false;
+                blackQueenSideCastle = false;
+            }
+        }
+
+        if (move.getNotation().equalsIgnoreCase("O-O"))
+        {
+            if (getWhiteTurn())
+            {
+                move(new Move(whitePieces[7], new Location(5, 7)));
+                whiteQueenSideCastle = false;
+                whiteKingSideCastle = false;
+            }
+            else
+            {
+                move(new Move(blackPieces[7], new Location(5, 0)));
+                blackQueenSideCastle = false;
+                blackKingSideCastle = false;
+            }
+        }
+        else if (move.getNotation().equalsIgnoreCase("O-O-O"))
+        {
+            if (getWhiteTurn())
+            {
+                move(new Move(whitePieces[0], new Location(3, 7)));
+                whiteQueenSideCastle = false;
+                whiteKingSideCastle = false;
+            }
+            else
+            {
+                move(new Move(blackPieces[0], new Location(3, 0)));
+                blackQueenSideCastle = false;
+                blackKingSideCastle = false;
+            }
+        }
+
         board[piece.getLocal().x()][piece.getLocal().y()] = null;
         String startingLetter =
             move.getPiece().getLocal().toString().substring(0, 1);
@@ -675,7 +844,28 @@ public class Game
                 blackPieces[board[move.getLocal().x()][move.getLocal().y()]
                     .getInColorArray()] = null;
             }
+
+            if (whitePieces[0] == null)
+            {
+                whiteQueenSideCastle = false;
+            }
+
+            if (whitePieces[7] == null)
+            {
+                whiteKingSideCastle = false;
+            }
+
+            if (blackPieces[0] == null)
+            {
+                blackQueenSideCastle = false;
+            }
+
+            if (blackPieces[7] == null)
+            {
+                blackKingSideCastle = false;
+            }
         }
+
         notation += move.getLocal().toString();
 
         if ((move.getLocal().y() == 0 || move.getLocal().y() == 7)
@@ -720,7 +910,6 @@ public class Game
                     break;
 
             }
-
 
         }
 
