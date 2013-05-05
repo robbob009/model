@@ -348,6 +348,11 @@ public class Game
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Returns the last move done
+     * @return is the last move completed
+     */
     public Move getLastMove()
     {
         if (whiteInCheck || blackInCheck)

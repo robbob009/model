@@ -139,13 +139,43 @@ public class GameTest
         board[7][7] = blackPiece[0] = new Rook(false, new Location(7, 7), 0);
         board[6][6] = blackPiece[4] = new King(false, new Location(6, 6), 0);
 
-        Game game = new Game(board, whitePiece, blackPiece, true);
-        game.print();
-        game.updateAvailableMoves();
+        Game game1 = new Game(board, whitePiece, blackPiece, true);
+        game1.print();
+        game1.updateAvailableMoves();
 
-        for (Move move : game.getAvailableMoves())
+        for (Move move : game1.getAvailableMoves())
         {
             System.out.println(move.toString());
         }
     }
+
+    /**
+     * test get board
+     */
+    public void testGetBoard()
+    {
+        assertNotNull(game.getBoard());
+    }
+
+    /**
+     *test the white moves at the beginning
+     */
+    public void testWhiteMoves()
+    {
+        assertEquals(20, game.getWhiteAttackingMoves().size());
+        assertEquals(20, game.getWhiteAvailableMoves().size());
+    }
+
+    /**
+     * test for the black moves at the beginning
+     */
+    public void testBlackMoves()
+    {
+        assertEquals(20, game.getBlackAttackingMoves().size());
+        assertEquals(20, game.getBlackAvailableMoves().size());
+    }
+
+
+
 }
+
