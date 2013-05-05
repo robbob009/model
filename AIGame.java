@@ -17,6 +17,10 @@ public class AIGame
     private Game game;
 
 
+    // ----------------------------------------------------------
+    /**
+     * This is the play game method that plays a game
+     */
     public void playGame()
     {
         game = new Game();
@@ -38,6 +42,10 @@ public class AIGame
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Methods for the white AI version
+     */
     public void whiteAI()
     {
         ArrayList<Move> whiteMoves = game.getAvailableMoves();
@@ -232,6 +240,12 @@ public class AIGame
     }
 
 
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     * @param notation is the string to move
+     * @return the the string of the move made and any pieces taken
+     */
     public String makeMove(String notation)
     {
         Move nextMove = null;
@@ -271,15 +285,16 @@ public class AIGame
      * white is ahead. If the number is negative, black is ahead. if the number
      * is zero, the game is evenly matched.
      *
-     * @param game
+     * @param game1
      *            The game position being analyzed
+     *            @return is the number analysis of the position
      */
-    public double analyzePosition(Game game)
+    public double analyzePosition(Game game1)
     {
         double total = 0;
 
         // Point value for having the piece
-        for (Piece piece : game.getWhitePieces())
+        for (Piece piece : game1.getWhitePieces())
         {
             if (piece != null)
             {
@@ -287,7 +302,7 @@ public class AIGame
             }
         }
 
-        for (Piece piece : game.getBlackPieces())
+        for (Piece piece : game1.getBlackPieces())
         {
             if (piece != null)
             {
@@ -309,7 +324,7 @@ public class AIGame
      * Gets the numerical value of the piece
      *
      * @param piece
-     * @return
+     * @return is the num value of the piece
      */
     public int getNumValue(Piece piece)
     {
