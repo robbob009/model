@@ -9,6 +9,7 @@ import java.util.Random;
  * /** Tries to get a very simplistic AI to work (Random moves)
  *
  * @author Robert Scheible (scheible)
+ * @author Jack Cobb
  * @version Apr 11, 2013
  * @author Loran S
  */

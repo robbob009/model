@@ -187,21 +187,6 @@ public class Game
         return blackAttackingMoves;
     }
 
-
-// /**
-// * Returns whether or not the current player is in check
-// *
-// * @return is in check
-// */
-// public boolean isInCheck()
-// {
-// if (whiteTurn)
-// {
-// return whiteInCheck;
-// }
-// return blackInCheck;
-// }
-
     /**
      * Returns the actual board
      *

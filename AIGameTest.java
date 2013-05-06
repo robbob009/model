@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Scanner;
-import junit.framework.TestCase;
 
 // -------------------------------------------------------------------------
 /**
@@ -24,15 +22,6 @@ public class AIGameTest
     {
         game = new AIGame();
 
-    }
-
-    /**
-     * Tests the run method
-     */
-    public void testRun()
-    {
-//        AIGame sample = new AIGame();
-//        sample.playGame();
     }
 
     /**
@@ -60,19 +49,5 @@ public class AIGameTest
         Pawn p = new Pawn(false, null, 4);
         assertEquals(1, game.getNumValue(p));
     }
-
-//    /**
-//     * tests the analyze position
-//     */
-//    public void testAnalyzePos()
-//    {
-//        Game gram = new Game(); // somethings wrong with the source path
-//        assertEquals(0, game.analyzePosition(gram));
-//
-//    }
-
-    /**
-     *
-     */
 
 }
